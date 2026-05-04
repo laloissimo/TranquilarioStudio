@@ -1,0 +1,99 @@
+{
+  "theme": "LIGHT",
+  "archetype": "1 (Organic & Earthy)",
+  "colors": {
+    "background": "#F4F1ED",
+    "surface": "#FFFFFF",
+    "surface_glass": "rgba(255, 255, 255, 0.7)",
+    "primary": "#4A5D4E",
+    "secondary": "#8C6A5D",
+    "accent": "#5E8B82",
+    "text_primary": "#2B2E2A",
+    "text_secondary": "#5C605A",
+    "border": "rgba(74, 93, 78, 0.15)"
+  },
+  "typography": {
+    "headings": {
+      "family": "Cormorant Garamond, serif",
+      "weights": ["300", "400", "500", "600"],
+      "usage": "H1, H2, H3, large quotes. Use tracking-tight."
+    },
+    "body": {
+      "family": "Manrope, sans-serif",
+      "weights": ["300", "400", "500"],
+      "usage": "Paragraphs, navigation, buttons, small labels. Use tracking-normal to wide."
+    },
+    "scale": {
+      "h1": "text-5xl sm:text-6xl lg:text-7xl font-light tracking-tighter",
+      "h2": "text-3xl sm:text-4xl lg:text-5xl font-light tracking-tight",
+      "h3": "text-2xl sm:text-3xl font-light",
+      "body": "text-base sm:text-lg leading-relaxed text-text_secondary",
+      "overline": "text-xs uppercase tracking-[0.2em] font-medium text-accent"
+    }
+  },
+  "layout": {
+    "spacing": "Generous spacing. Use py-24 to py-32 for sections. Gap-12 to gap-16 for grids.",
+    "grid_strategy": "Mobile-first single column. On desktop, use asymmetric overlapping bento layouts or 'The Swiss Grid' with wide gaps.",
+    "container": "Max-width 7xl (max-w-7xl) with px-6 or px-8 padding.",
+    "radius": "Organic and soft. Use rounded-2xl or rounded-3xl for images. Buttons can be fully rounded (rounded-full) or softly rounded (rounded-lg)."
+  },
+  "surfaces_and_textures": {
+    "hero_overlay": "bg-[#4A5D4E]/20 to bg-[#2B2E2A]/30 for text readability without obscuring the organic texture.",
+    "glassmorphism": "backdrop-blur-xl bg-[#F4F1ED]/80 border-b border-[#4A5D4E]/10. Use for sticky header.",
+    "cards": "Cardless or flat background with no shadow. Instead of standard cards, use solid backgrounds (#FFFFFF) with generous padding (p-8 to p-12) and subtle 1px border (#4A5D4E/10)."
+  },
+  "animations": {
+    "hover": "Subtle translate-y-1, opacity shifts, and slow transitions (duration-300 ease-out).",
+    "scroll": "Staggered fade-up for section contents.",
+    "interactive": "Buttons should have a gentle scale effect on active state."
+  },
+  "components": {
+    "navigation": "Sticky top, glassmorphism background. Multilingual toggle (EN/DE/IT/PT) represented as clean text or rounded flags. CTA prominently aligned right.",
+    "hero": "Immersive image background. Center-aligned text for tranquility. Large serif H1, wide-tracked sans-serif subtitle.",
+    "about_section": "Asymmetric split. Left: Large softly rounded portrait image. Right: Typography-focused story about Lalo's touch and empathy.",
+    "sessions_section": "List or alternating grid. Avoid rigid cards. Use horizontal dividing lines (border-t) and large padding to separate 'Thai Massage', 'Alexander Technique', and 'Body Awareness'.",
+    "testimonials": "Shadcn Carousel. Minimalist design. Large serif quotation mark in muted turquoise (#5E8B82).",
+    "contact": "Clean Shadcn Form customized with flat inputs (border-b only, or soft solid backgrounds). High-contrast primary CTA button.",
+    "footer": "Dark or highly contrasted background (#2B2E2A) with light text (#F4F1ED) to ground the page. Large typography for the German tagline."
+  },
+  "media": {
+    "images": [
+      {
+        "url": "https://images.unsplash.com/photo-1748357657454-b2c760eaea4c?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjAzMzV8MHwxfHNlYXJjaHwxfHx0aGFpJTIwbWFzc2FnZSUyMHN0dWRpbyUyMG9yZ2FuaWMlMjBlYXJ0aCUyMHRvbmVzfGVufDB8fHx8MTc3NzkzMjQ3MHww&ixlib=rb-4.1.0&q=85",
+        "category": "hero_background",
+        "description": "Green moss on a woven basket - evocative of organic earth tones and texture."
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1633116179568-0183958979e9?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDQ2NDF8MHwxfHNlYXJjaHwzfHxtYWxlJTIwbWFzc2FnZSUyMHRoZXJhcGlzdCUyMHBvcnRyYWl0JTIwc21pbGluZyUyMG5hdHVyZXxlbnwwfHx8fDE3Nzc5MzI0NzB8MA&ixlib=rb-4.1.0&q=85",
+        "category": "portrait_lalo",
+        "description": "Smiling man with a beard, natural warm and welcoming presence for Lalo's bio."
+      },
+      {
+        "url": "https://images.pexels.com/photos/5040759/pexels-photo-5040759.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+        "category": "accent_logo",
+        "description": "Minimalist composition with a leaf on overlapping white circular plates - used as the circular Tranquilário logo element."
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1658210202100-f40dae1947e8?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1MDZ8MHwxfHNlYXJjaHwyfHxuYXR1cmFsJTIwc3RvbmUlMjBmYWJyaWMlMjB0ZXh0dXJlJTIwc3VidGxlJTIwZ3JhZGllbnR8ZW58MHx8fHwxNzc3OTMyNDcwfDA&ixlib=rb-4.1.0&q=85",
+        "category": "texture_background",
+        "description": "Subtle natural fabric/stone texture with gentle gradients for section backgrounds."
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1620052079778-7d5b7509645c?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDk1Nzh8MHwxfHNlYXJjaHwxfHxtYXNzYWdlJTIwdGhlcmFweSUyMGhhbmRzJTIwYmFja3xlbnwwfHx8fDE3Nzc5MzI0NzV8MA&ixlib=rb-4.1.0&q=85",
+        "category": "session_massage",
+        "description": "Hands performing therapy - representing touch and body awareness."
+      }
+    ]
+  },
+  "instructions_to_main_agent": [
+    "Install and use Cormorant Garamond and Manrope from Google Fonts.",
+    "Ensure all interactive elements have data-testid attributes.",
+    "Never use pure white #FFFFFF for the main background; use the Warm Sand #F4F1ED to maintain the earthy theme. Use #FFFFFF for localized surface highlights.",
+    "Do not use generic Shadcn Cards for the Sessions section. Create a bespoke, airy layout using borders and padding.",
+    "Implement a smooth scroll experience (e.g., using Lenis if possible or standard CSS smooth scrolling).",
+    "Use lucide-react or @phosphor-icons/react for icons.",
+    "Include the specified testimonials (Jan M., Malina E., etc.) in a sleek carousel.",
+    "Build the Language Toggle in the header (EN, DE, IT, PT). You can use simple text or small circular flags.",
+    "Ensure the contact form has an earthy, non-corporate feel. Avoid harsh input borders. Use a soft underline (border-b) or softly rounded inputs filled with white."
+  ]
+}
