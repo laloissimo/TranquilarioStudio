@@ -3,23 +3,106 @@ from dotenv import load_dotenv
 from starlette.middleware.cors import CORSMiddleware
 from motor.motor_asyncio import AsyncIOMotorClient
 import os
+import asyncio
 import logging
+import resend
 from pathlib import Path
 from pydantic import BaseModel, Field, EmailStr, ConfigDict
 from typing import List, Optional
 import uuid
 from datetime import datetime, timezone
+from html import escape
 
 
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
 
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
+
 mongo_url = os.environ['MONGO_URL']
 client = AsyncIOMotorClient(mongo_url)
 db = client[os.environ['DB_NAME']]
 
+# Resend configuration
+RESEND_API_KEY = os.environ.get('RESEND_API_KEY')
+SENDER_EMAIL = os.environ.get('SENDER_EMAIL', 'onboarding@resend.dev')
+RECIPIENT_EMAIL = os.environ.get('RECIPIENT_EMAIL', 'tranquilario@pm.me')
+if RESEND_API_KEY:
+    resend.api_key = RESEND_API_KEY
+
 app = FastAPI(title="Tranquilário Studio API")
 api_router = APIRouter(prefix="/api")
+
+
+def _build_contact_email_html(contact: 'Contact') -> str:
+    rows = [
+        ("Name", contact.name),
+        ("Email", contact.email),
+        ("Phone", contact.phone or "—"),
+        ("Preferred session", contact.preferred_session or "—"),
+        ("Language", contact.language),
+        ("Received", contact.created_at.strftime("%Y-%m-%d %H:%M UTC")),
+    ]
+    row_html = "".join(
+        f'<tr><td style="padding:8px 14px;color:#5C605A;font-family:Manrope,Arial,sans-serif;font-size:12px;text-transform:uppercase;letter-spacing:.12em;width:160px;vertical-align:top;">{escape(str(k))}</td>'
+        f'<td style="padding:8px 14px;color:#2B2E2A;font-family:Manrope,Arial,sans-serif;font-size:14px;">{escape(str(v))}</td></tr>'
+        for k, v in rows
+    )
+    safe_msg = escape(contact.message).replace("\n", "<br/>")
+    return f"""
+    <div style="background:#F4F1ED;padding:32px 0;font-family:Manrope,Arial,sans-serif;">
+      <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="600" style="margin:0 auto;background:#ffffff;border:1px solid rgba(74,93,78,0.15);border-radius:20px;overflow:hidden;">
+        <tr>
+          <td style="padding:28px 32px;background:#3A4A3E;color:#F4F1ED;">
+            <div style="font-family:'Cormorant Garamond',Georgia,serif;font-size:24px;font-weight:300;letter-spacing:.01em;">Tranquilário Studio</div>
+            <div style="font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:#7FA8A0;margin-top:6px;">New session request</div>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding:28px 32px 8px;">
+            <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">{row_html}</table>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding:16px 32px 28px;">
+            <div style="font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#5E8B82;margin-bottom:10px;">Message</div>
+            <div style="font-size:15px;color:#2B2E2A;line-height:1.6;background:#F4F1ED;border-left:3px solid #5E8B82;padding:16px 18px;border-radius:8px;">{safe_msg}</div>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding:14px 32px 24px;font-size:12px;color:#5C605A;border-top:1px solid rgba(74,93,78,0.12);">
+            Reply directly to <a href="mailto:{escape(contact.email)}" style="color:#4A5D4E;">{escape(contact.email)}</a> to respond to this request.
+          </td>
+        </tr>
+      </table>
+    </div>
+    """
+
+
+async def _send_contact_email(contact: 'Contact') -> Optional[str]:
+    """Send a transactional email to the studio. Returns the Resend email id on success, None on failure."""
+    if not RESEND_API_KEY:
+        logger.warning("RESEND_API_KEY not configured — skipping email send")
+        return None
+    params = {
+        "from": f"Tranquilário Studio <{SENDER_EMAIL}>",
+        "to": [RECIPIENT_EMAIL],
+        "reply_to": contact.email,
+        "subject": f"New session request — {contact.name}",
+        "html": _build_contact_email_html(contact),
+    }
+    try:
+        email = await asyncio.to_thread(resend.Emails.send, params)
+        email_id = email.get("id") if isinstance(email, dict) else None
+        logger.info(f"Resend: contact email sent (id={email_id})")
+        return email_id
+    except Exception as e:
+        logger.error(f"Resend: failed to send contact email: {e}")
+        return None
 
 
 # ----- Models -----
@@ -64,10 +147,13 @@ async def create_contact(payload: ContactCreate):
         doc['created_at'] = doc['created_at'].isoformat()
         await db.contacts.insert_one(doc)
         logger.info(f"New contact request from {contact.email} ({contact.language})")
-        return contact
     except Exception as e:
         logger.exception("Failed to save contact")
         raise HTTPException(status_code=500, detail=f"Could not save contact: {e}")
+
+    # Fire-and-forget style email (awaited, but failure does not break the request)
+    await _send_contact_email(contact)
+    return contact
 
 
 @api_router.get("/contacts", response_model=List[Contact])
@@ -91,13 +177,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-)
-logger = logging.getLogger(__name__)
-
 
 @app.on_event("shutdown")
 async def shutdown_db_client():
