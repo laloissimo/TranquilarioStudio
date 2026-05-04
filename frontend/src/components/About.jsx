@@ -2,7 +2,7 @@ import React from 'react';
 import { useLang } from '../i18n/LanguageContext';
 
 const PORTRAIT =
-  'https://images.unsplash.com/photo-1633116179568-0183958979e9?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDQ2NDF8MHwxfHNlYXJjaHwzfHxtYWxlJTIwbWFzc2FnZSUyMHRoZXJhcGlzdCUyMHBvcnRyYWl0JTIwc21pbGluZyUyMG5hdHVyZXxlbnwwfHx8fDE3Nzc5MzI0NzB8MA&ixlib=rb-4.1.0&q=85';
+  'https://customer-assets.emergentagent.com/job_lalo-wellness/artifacts/fai6lslr_lalo%20long%20portrait.jpeg';
 
 export const About = () => {
   const { t } = useLang();
@@ -17,6 +17,7 @@ export const About = () => {
               alt="Lalo Porto — practitioner"
               data-testid="about-portrait"
               className="w-full h-[520px] md:h-[640px] object-cover rounded-[2rem] shadow-[0_30px_80px_-30px_rgba(43,46,42,0.25)]"
+              style={{ objectPosition: '30% 40%' }}
             />
             <div className="absolute -bottom-6 -left-6 w-28 h-28 rounded-full bg-[#5E8B82]/15 blur-2xl" aria-hidden />
           </div>
