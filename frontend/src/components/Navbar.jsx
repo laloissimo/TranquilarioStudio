@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import LanguageToggle from './LanguageToggle';
+import LogoMark from './LogoMark';
 import { useLang } from '../i18n/LanguageContext';
 import { Menu, X } from 'lucide-react';
 
@@ -34,9 +35,22 @@ export const Navbar = () => {
     >
       <div className="max-w-7xl mx-auto px-6 lg:px-10 h-[72px] flex items-center justify-between">
         <a href="#home" data-testid="nav-logo" className="flex items-center gap-3 group">
-          <span className="logo-mark" aria-hidden="true" />
-          <span className="font-serif text-xl text-ink tracking-tight">
-            Tranquilário
+          <LogoMark size={46} className="shrink-0" />
+          <span className="flex flex-col leading-tight">
+            <span
+              className={`font-serif text-xl sm:text-2xl tracking-tight transition-colors duration-500 ${
+                scrolled ? 'text-ink' : 'text-[#F4F1ED]'
+              }`}
+            >
+              Tranquilário
+            </span>
+            <span
+              className={`hidden sm:inline-block mt-[3px] text-[10px] tracking-[0.24em] uppercase transition-colors duration-500 ${
+                scrolled ? 'text-turquoise' : 'text-[#7FA8A0]'
+              }`}
+            >
+              Thai Massage · Alexander · Body Awareness
+            </span>
           </span>
         </a>
 
@@ -46,7 +60,9 @@ export const Navbar = () => {
               key={l.key}
               href={l.href}
               data-testid={`nav-link-${l.key}`}
-              className="text-[0.82rem] tracking-[0.16em] uppercase text-ink-soft hover:text-earth transition-colors duration-300"
+              className={`text-[0.82rem] tracking-[0.16em] uppercase transition-colors duration-300 ${
+                scrolled ? 'text-ink-soft hover:text-earth' : 'text-[#EFEAE2]/80 hover:text-white'
+              }`}
             >
               {t.nav[l.key]}
             </a>
