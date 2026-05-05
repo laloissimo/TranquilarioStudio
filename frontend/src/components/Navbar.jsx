@@ -35,7 +35,7 @@ export const Navbar = () => {
     >
       <div className="max-w-7xl mx-auto px-6 lg:px-10 h-[72px] flex items-center justify-between">
         <a href="#home" data-testid="nav-logo" className="flex items-center gap-3 group">
-          <LogoMark size={46} className="shrink-0" />
+          <LogoMark size={46} variant="ripple" className="shrink-0" />
           <span className="flex flex-col leading-tight">
             <span
               className={`font-serif text-xl sm:text-2xl tracking-tight transition-colors duration-500 ${

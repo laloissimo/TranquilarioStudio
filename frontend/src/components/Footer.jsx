@@ -26,7 +26,7 @@ export const Footer = () => {
         <div className="mt-12 grid md:grid-cols-12 gap-10">
           <div className="md:col-span-5">
             <div className="flex items-center gap-3">
-              <LogoMark size={44} filled={false} stroke="#EFEAE2" accent="#7FA8A0" />
+              <LogoMark size={44} variant="ripple" filled={false} stroke="#EFEAE2" accent="#7FA8A0" />
               <span className="font-serif text-2xl tracking-tight">Tranquilário</span>
             </div>
             <p className="mt-4 text-sm text-[#EFEAE2]/70 max-w-sm leading-relaxed">
