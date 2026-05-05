@@ -1,8 +1,8 @@
 import React from 'react';
 
 /**
- * Tranquilário logo mark — two variants:
- *   variant="leaf"   → breathing leaf inside concentric rings
+ * Tranquilário logo mark — scalable SVG.
+ *   variant="leaf"   → maple leaf resting inside concentric ripple rings
  *   variant="ripple" → concentric rings only (stillness / pebble-in-water)
  *
  * filled=true  → dark disc with cream rings/leaf (for light backgrounds)
@@ -19,6 +19,10 @@ export const LogoMark = ({
   ...rest
 }) => {
   const ringColor = filled ? cream : stroke;
+  // 11-point stylized maple leaf path, centered around (32,32) in the 64x64 viewBox.
+  const mapleLeafPath =
+    'M32 14 L34 21 L39 18 L37 25 L44 24 L40 30 L47 32 L40 34 L43 40 L36 39 L35 46 L32 48 L29 46 L28 39 L21 40 L24 34 L17 32 L24 30 L20 24 L27 25 L25 18 L30 21 Z';
+  const stemPath = 'M32 48 L32 52';
 
   return (
     <svg
@@ -34,9 +38,9 @@ export const LogoMark = ({
     >
       {filled && <circle cx="32" cy="32" r="31" fill={stroke} />}
 
+      {/* Ripple rings — present in BOTH variants, but count/size differs */}
       {variant === 'ripple' ? (
         <>
-          {/* Ripple: three concentric rings radiating from center, with a small dot nucleus */}
           <circle cx="32" cy="32" r={filled ? 29 : 30} stroke={ringColor} strokeOpacity={filled ? 0.35 : 0.9} strokeWidth="1" />
           <circle cx="32" cy="32" r={filled ? 22 : 23} stroke={ringColor} strokeOpacity={filled ? 0.5 : 0.7} strokeWidth="1" />
           <circle cx="32" cy="32" r={filled ? 14 : 15} stroke={ringColor} strokeOpacity={filled ? 0.7 : 0.55} strokeWidth="1" />
@@ -45,21 +49,32 @@ export const LogoMark = ({
         </>
       ) : (
         <>
-          {/* Leaf variant */}
-          <circle cx="32" cy="32" r={filled ? 28 : 30} stroke={ringColor} strokeOpacity={filled ? 0.4 : 0.9} strokeWidth="1" />
-          <circle cx="32" cy="32" r={filled ? 22 : 24} stroke={ringColor} strokeOpacity={filled ? 0.28 : 0.5} strokeWidth="0.8" />
-          <g transform="rotate(-18 32 32)">
-            <path
-              d="M32 12 C 46 18, 48 40, 32 52 C 16 40, 18 18, 32 12 Z"
-              fill={filled ? cream : 'none'}
-              stroke={filled ? 'none' : accent}
-              strokeWidth={filled ? 0 : 1.4}
-              strokeLinejoin="round"
-            />
-            <path d="M32 12 C 33 24, 33 40, 32 52" stroke={accent} strokeWidth="1.2" strokeLinecap="round" fill="none" opacity={filled ? 0.85 : 0.9} />
-            <path d="M32 22 C 36 24, 38 27, 40 30" stroke={accent} strokeWidth="0.8" strokeLinecap="round" fill="none" opacity={filled ? 0.55 : 0.6} />
-            <path d="M32 32 C 28 34, 26 37, 24 40" stroke={accent} strokeWidth="0.8" strokeLinecap="round" fill="none" opacity={filled ? 0.55 : 0.6} />
-          </g>
+          {/* Outer ripple */}
+          <circle cx="32" cy="32" r={filled ? 29 : 30} stroke={ringColor} strokeOpacity={filled ? 0.32 : 0.9} strokeWidth="1" />
+          {/* Inner ripple */}
+          <circle cx="32" cy="32" r={filled ? 22 : 24} stroke={ringColor} strokeOpacity={filled ? 0.22 : 0.5} strokeWidth="0.8" />
+          {/* Maple leaf */}
+          <path
+            d={mapleLeafPath}
+            fill={filled ? cream : 'none'}
+            stroke={filled ? 'none' : accent}
+            strokeWidth={filled ? 0 : 1.2}
+            strokeLinejoin="round"
+          />
+          <path
+            d={stemPath}
+            stroke={filled ? cream : accent}
+            strokeWidth="1.3"
+            strokeLinecap="round"
+          />
+          {/* Subtle vein accent in turquoise */}
+          <path
+            d="M32 21 L32 44"
+            stroke={accent}
+            strokeOpacity="0.55"
+            strokeWidth="0.7"
+            strokeLinecap="round"
+          />
         </>
       )}
     </svg>

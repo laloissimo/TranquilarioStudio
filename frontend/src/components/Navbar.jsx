@@ -35,21 +35,22 @@ export const Navbar = () => {
     >
       <div className="max-w-7xl mx-auto px-6 lg:px-10 h-[72px] flex items-center justify-between">
         <a href="#home" data-testid="nav-logo" className="flex items-center gap-3 group">
-          <LogoMark size={46} variant="ripple" className="shrink-0" />
+          <LogoMark size={48} variant="leaf" className="shrink-0" />
           <span className="flex flex-col leading-tight">
             <span
               className={`font-serif text-xl sm:text-2xl tracking-tight transition-colors duration-500 ${
                 scrolled ? 'text-ink' : 'text-[#F4F1ED]'
               }`}
             >
-              Tranquilário
+              Tranquilário Studio
             </span>
             <span
-              className={`hidden sm:inline-block mt-[3px] text-[10px] tracking-[0.24em] uppercase transition-colors duration-500 ${
+              className={`hidden sm:flex flex-col mt-[3px] text-[9.5px] tracking-[0.22em] uppercase transition-colors duration-500 ${
                 scrolled ? 'text-turquoise' : 'text-[#7FA8A0]'
               }`}
             >
-              Thai Massage · Alexander · Body Awareness
+              <span>Thai Massage · Alexander Technique</span>
+              <span>Body Awareness</span>
             </span>
           </span>
         </a>
