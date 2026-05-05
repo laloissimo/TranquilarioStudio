@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useLang } from '../i18n/LanguageContext';
-import { Mail, Phone, MapPin, Send, Check, AlertCircle } from 'lucide-react';
+import { Mail, Phone, MapPin, Send, Check, AlertCircle, MessageCircle } from 'lucide-react';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
@@ -77,16 +77,28 @@ export const Contact = () => {
               <span className="text-base md:text-lg">+49 162 876 1060</span>
             </a>
             <a
-              href="https://wa.me/491628761060"
+              href="https://wa.me/16475391744"
               target="_blank"
               rel="noopener noreferrer"
               data-testid="contact-whatsapp-link"
               className="flex items-center gap-4 text-ink hover:text-earth transition-colors"
             >
               <span className="w-10 h-10 rounded-full bg-white border border-hairline flex items-center justify-center text-turquoise">
-                <Send size={16} />
+                <MessageCircle size={16} />
               </span>
               <span className="text-base md:text-lg">WhatsApp</span>
+            </a>
+            <a
+              href="https://signal.me/#p/+491628761060"
+              target="_blank"
+              rel="noopener noreferrer"
+              data-testid="contact-signal-link"
+              className="flex items-center gap-4 text-ink hover:text-earth transition-colors"
+            >
+              <span className="w-10 h-10 rounded-full bg-white border border-hairline flex items-center justify-center text-turquoise">
+                <Send size={16} />
+              </span>
+              <span className="text-base md:text-lg">Signal</span>
             </a>
             <div className="flex items-center gap-4 text-ink-soft pt-2">
               <span className="w-10 h-10 rounded-full bg-white border border-hairline flex items-center justify-center text-turquoise">
