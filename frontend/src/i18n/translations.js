@@ -32,8 +32,8 @@ export const translations = {
       body2:
         "Drawing from years of practice in body-awareness through Thai Massage, the Alexander Technique, and movement exploration, he offers treatments that respond to the body’s subtle language.",
       quote:
-        '“Nothing about his approach feels mechanical. Everything he does is filled with awareness, love, empathy, and respect — both for his work and for the person receiving it.”',
-      quoteAuthor: '— Jan M., 58, Tischlermeister',
+        '"Nothing about his approach feels mechanical. Everything he does is filled with awareness, love, empathy, and respect — both for his work and for the person receiving it."',
+      quoteAuthor: '— Jan M., 57, Tischlermeister',
     },
     sessions: {
       overline: 'Sessions',
@@ -43,7 +43,7 @@ export const translations = {
       items: [
         {
           title: 'Traditional Thai Massage',
-          body: 'Rhythmic stretches, gentle compression and sustained holds along the body’s energy lines, restoring space, breath and vitality.',
+          body: 'Rhythmic stretches, gentle compression and sustained holds along the body\u2019s energy lines, restoring space, breath and vitality.',
         },
         {
           title: 'Alexander Technique',
@@ -62,23 +62,38 @@ export const translations = {
       items: [
         {
           quote:
-            '“Lalo’s massage was far more than just a physical treatment — it was a subtle dialogue. He found tensions before I could even feel them and released them with calm and depth that inspired trust.”',
+            '"I left feeling deeply relaxed and relieved of so much tension. For anyone considering a session, my recommendation is to book 90 minutes — it is absolutely worth it, and your body will thank you."',
+          author: 'Jan M., 57, Tischlermeister',
+        },
+        {
+          quote:
+            '"A Thai massage with Alexander Technique integration by Lalo is a truly unique experience. With a deep sense of care, he guides your body to its natural limits, facilitating deep stretching and relaxation."',
+          author: 'Birgit K-M., 60, Seelenlauscherin',
+        },
+        {
+          quote:
+            '"You may even feel as if you are floating for a moment. The effects of the massage last long after the session, leaving you with a profound sense of lightness, relaxation, and overall well-being."',
+          author: 'Birgit K-M., 60, Seelenlauscherin',
+        },
+        {
+          quote:
+            '"Lalo\u2019s massage was far more than just a physical treatment — it was a subtle dialogue. He found tensions before I could even feel them and released them with a calm and depth that inspired trust."',
           author: 'Malina E.',
         },
         {
           quote:
-            '“A Thai massage with Alexander Technique integration by Lalo is a truly unique experience… You may even feel as if you are floating for a moment.”',
-          author: 'Birgit K-M., Seelenlauscherin',
+            '"Every movement was deliberate, but never mechanical — more like a conversation without words. Anyone seeking mindful touch and genuine body awareness is in the right hands with Lalo."',
+          author: 'Malina E.',
         },
         {
           quote:
-            '“For my job as a circus acrobat, Lalo’s massages are fundamental for the relaxation of muscles and joints!”',
-          author: 'Philine D., 43',
-        },
-        {
-          quote:
-            '“He is a highly qualified and very kind professional. My back pain disappears when he gives me a massage… I only feel gratitude!”',
+            '"He is a highly qualified and very kind professional. The pain in my back, which is constant, disappears when he gives me the massage, and I have also noticed improvements in my flexibility. I only feel gratitude!"',
           author: 'Moema F-T.',
+        },
+        {
+          quote:
+            '"Fantastic! For my job as a circus acrobat, Lalo\u2019s massages are fundamental for the relaxation of muscles and joints!"',
+          author: 'Philine D.',
         },
       ],
     },
@@ -135,8 +150,8 @@ export const translations = {
       body2:
         'Aus jahrelanger Praxis in Körperbewusstsein durch Thai-Massage, Alexander-Technik und Bewegungserkundung bietet er Behandlungen, die der feinen Sprache des Körpers antworten.',
       quote:
-        '„Nichts an seinem Zugang wirkt mechanisch. Alles, was er tut, ist erfüllt von Bewusstsein, Liebe, Empathie und Respekt — sowohl für seine Arbeit als auch für den Menschen, der sie empfängt.“',
-      quoteAuthor: '— Jan M., 58, Tischlermeister',
+        '„Nichts an seinem Zugang wirkt mechanisch. Alles, was er tut, ist erfüllt von Bewusstsein, Liebe, Empathie und Respekt — sowohl für seine Arbeit als auch für den Menschen, der sie empfängt."',
+      quoteAuthor: '— Jan M., 57, Tischlermeister',
     },
     sessions: {
       overline: 'Sitzungen',
@@ -165,23 +180,38 @@ export const translations = {
       items: [
         {
           quote:
-            '„Lalos Massage war weit mehr als eine körperliche Behandlung — sie war ein feiner Dialog. Er fand Spannungen, bevor ich sie fühlen konnte, und löste sie mit einer Ruhe und Tiefe, die Vertrauen schuf.“',
+            '„Ich verließ die Sitzung tief entspannt und von so viel Spannung befreit. Wer eine Sitzung in Erwägung zieht, dem empfehle ich 90 Minuten — es lohnt sich absolut, und Ihr Körper wird es Ihnen danken."',
+          author: 'Jan M., 57, Tischlermeister',
+        },
+        {
+          quote:
+            '„Eine Thai-Massage mit Integration der Alexander-Technik bei Lalo ist ein einzigartiges Erlebnis. Er führt Ihren Körper achtsam an seine Grenzen heran, um eine tiefe Dehnung und Entspannung zu ermöglichen."',
+          author: 'Birgit K-M., 60, Seelenlauscherin',
+        },
+        {
+          quote:
+            '„Man hat das Gefühl, für einen Moment über dem Boden zu schweben. Die Wirkung der Massage hält lange an und hinterlässt ein Gefühl von Leichtigkeit, tiefer Entspannung und umfassendem Wohlbefinden."',
+          author: 'Birgit K-M., 60, Seelenlauscherin',
+        },
+        {
+          quote:
+            '„Die Massage von Lalo war weit mehr als nur eine körperliche Behandlung — sie war ein feinsinniger Dialog. Er fand Spannungen, bevor ich sie spürte, und löste sie mit einer Ruhe und Tiefe, die Vertrauen schuf."',
           author: 'Malina E.',
         },
         {
           quote:
-            '„Eine Thai-Massage mit integrierter Alexander-Technik von Lalo ist eine wahrhaft einzigartige Erfahrung… Einen Moment lang fühlt man sich fast schwebend.“',
-          author: 'Birgit K-M., Seelenlauscherin',
+            '„Jeder Handgriff war durchdacht, aber nie mechanisch — eher wie ein Gespräch ohne Worte. Wer achtsame Berührung und echte Körperwahrnehmung sucht, ist bei Lalo genau richtig."',
+          author: 'Malina E.',
         },
         {
           quote:
-            '„Für meine Arbeit als Zirkusakrobatin sind Lalos Massagen grundlegend für die Entspannung von Muskeln und Gelenken!“',
-          author: 'Philine D., 43',
-        },
-        {
-          quote:
-            '„Er ist ein hochqualifizierter und sehr liebenswürdiger Profi. Meine Rückenschmerzen verschwinden, wenn er mich massiert… Ich empfinde nur Dankbarkeit!“',
+            '„Er ist ein hochqualifizierter und sehr liebenswürdiger Profi. Meine ständigen Rückenschmerzen verschwinden, wenn er mich massiert, und ich bemerke auch Verbesserungen in meiner Beweglichkeit. Ich empfinde nur Dankbarkeit!"',
           author: 'Moema F-T.',
+        },
+        {
+          quote:
+            '„Fantastisch! Für meine Arbeit als Zirkusakrobatin sind Lalos Massagen grundlegend für die Entspannung von Muskeln und Gelenken!"',
+          author: 'Philine D.',
         },
       ],
     },
@@ -238,8 +268,8 @@ export const translations = {
       body2:
         "Da anni di pratica nella consapevolezza corporea attraverso il Massaggio Thai, la Tecnica Alexander e l'esplorazione del movimento, offre trattamenti che rispondono al linguaggio sottile del corpo.",
       quote:
-        '“Nulla del suo approccio è meccanico. Tutto ciò che fa è intriso di consapevolezza, amore, empatia e rispetto — sia per il suo lavoro sia per la persona che lo riceve.”',
-      quoteAuthor: '— Jan M., 58, Tischlermeister',
+        '"Nulla del suo approccio è meccanico. Tutto ciò che fa è intriso di consapevolezza, amore, empatia e rispetto — sia per il suo lavoro sia per la persona che lo riceve."',
+      quoteAuthor: '— Jan M., 57, Tischlermeister',
     },
     sessions: {
       overline: 'Sedute',
@@ -257,7 +287,7 @@ export const translations = {
         },
         {
           title: 'Consapevolezza Corporea',
-          body: 'Attenzione guidata e respiro. Una silenziosa esplorazione di come il corpo si organizza, un ritorno alla presenza e all’ascolto interno.',
+          body: 'Attenzione guidata e respiro. Una silenziosa esplorazione di come il corpo si organizza, un ritorno alla presenza e all\u2019ascolto interno.',
         },
       ],
       note: 'Tariffe su richiesta — ogni seduta è disegnata su di te.',
@@ -268,23 +298,38 @@ export const translations = {
       items: [
         {
           quote:
-            '“Il massaggio di Lalo è stato molto più di un trattamento fisico — è stato un dialogo sottile. Ha trovato tensioni prima ancora che le sentissi e le ha sciolte con una calma e una profondità che ispiravano fiducia.”',
+            '"Sono uscito dalla seduta profondamente rilassato e sollevato da tanta tensione. A chiunque stia considerando una seduta, raccomando 90 minuti — ne vale assolutamente la pena, e il tuo corpo ti ringrazierà."',
+          author: 'Jan M., 57, Tischlermeister',
+        },
+        {
+          quote:
+            '"Un massaggio thailandese con l\u2019integrazione della Tecnica Alexander eseguito da Lalo è un\u2019esperienza davvero unica. Con grande cura, guida il tuo corpo ai suoi limiti naturali, facilitando un allungamento e un rilassamento profondi."',
+          author: 'Birgit K-M., 60, Seelenlauscherin',
+        },
+        {
+          quote:
+            '"Per un istante puoi sentirti sospeso. Gli effetti del massaggio durano a lungo dopo la seduta, lasciandoti un profondo senso di leggerezza, rilassamento e benessere generale."',
+          author: 'Birgit K-M., 60, Seelenlauscherin',
+        },
+        {
+          quote:
+            '"Il massaggio di Lalo è stato molto più di un trattamento fisico — è stato un dialogo sottile. Ha trovato tensioni prima che le sentissi e le ha sciolte con una calma e una profondità che ispiravano fiducia."',
           author: 'Malina E.',
         },
         {
           quote:
-            '“Un massaggio Thai con integrazione della Tecnica Alexander da parte di Lalo è un’esperienza davvero unica… Per un attimo potresti sentirti fluttuare.”',
-          author: 'Birgit K-M., Seelenlauscherin',
+            '"Ogni movimento era deliberato, ma mai meccanico — piuttosto una conversazione senza parole. Chi cerca un tocco consapevole e una vera consapevolezza del corpo è nelle mani giuste con Lalo."',
+          author: 'Malina E.',
         },
         {
           quote:
-            '“Per il mio lavoro di acrobata circense, i massaggi di Lalo sono fondamentali per il rilassamento di muscoli e articolazioni!”',
-          author: 'Philine D., 43',
-        },
-        {
-          quote:
-            '“È un professionista altamente qualificato e molto gentile. I miei dolori alla schiena scompaiono quando mi massaggia… Provo solo gratitudine!”',
+            '"È un professionista altamente qualificato e molto gentile. I miei dolori alla schiena, che sono costanti, scompaiono quando mi massaggia, e ho notato anche miglioramenti nella mia flessibilità. Provo solo gratitudine!"',
           author: 'Moema F-T.',
+        },
+        {
+          quote:
+            '"Fantastico! Per il mio lavoro di acrobata circense, i massaggi di Lalo sono fondamentali per il rilassamento di muscoli e articolazioni!"',
+          author: 'Philine D.',
         },
       ],
     },
@@ -341,8 +386,8 @@ export const translations = {
       body2:
         'Com anos de prática em consciência corporal através da Massagem Tailandesa, da Técnica Alexander e da exploração do movimento, oferece tratamentos que respondem à linguagem sutil do corpo.',
       quote:
-        '“Nada na sua abordagem é mecânico. Tudo o que ele faz é preenchido de consciência, amor, empatia e respeito — tanto pelo seu trabalho quanto pela pessoa que o recebe.”',
-      quoteAuthor: '— Jan M., 58, Tischlermeister',
+        '"Nada na sua abordagem é mecânico. Tudo o que ele faz é preenchido de consciência, amor, empatia e respeito — tanto pelo seu trabalho quanto pela pessoa que o recebe."',
+      quoteAuthor: '— Jan M., 57, Tischlermeister',
     },
     sessions: {
       overline: 'Sessões',
@@ -371,23 +416,38 @@ export const translations = {
       items: [
         {
           quote:
-            '“A massagem do Lalo foi muito mais do que um tratamento físico — foi um diálogo sutil. Ele encontrou tensões antes mesmo que eu pudesse senti-las e as liberou com uma calma e profundidade que inspiraram confiança.”',
+            '"Saí da sessão profundamente relaxado e aliviado de tanta tensão. A quem está pensando em uma sessão, recomendo 90 minutos — vale absolutamente a pena, e seu corpo vai agradecer."',
+          author: 'Jan M., 57, Tischlermeister',
+        },
+        {
+          quote:
+            '"Uma massagem tailandesa com integração da Técnica Alexander feita pelo Lalo é uma experiência verdadeiramente única. Com profundo cuidado, ele conduz o corpo aos seus limites naturais, proporcionando um alongamento e relaxamento profundos."',
+          author: 'Birgit K-M., 60, Seelenlauscherin',
+        },
+        {
+          quote:
+            '"Você pode até sentir que flutua por um instante. Os efeitos da massagem duram muito depois da sessão, deixando uma sensação profunda de leveza, relaxamento e bem-estar."',
+          author: 'Birgit K-M., 60, Seelenlauscherin',
+        },
+        {
+          quote:
+            '"A massagem do Lalo foi muito mais do que um tratamento físico — foi um diálogo sutil. Ele encontrou tensões antes mesmo que eu pudesse senti-las e as liberou com uma calma e profundidade que inspiraram confiança."',
           author: 'Malina E.',
         },
         {
           quote:
-            '“Uma massagem tailandesa com integração da Técnica Alexander feita pelo Lalo é uma experiência verdadeiramente única… Você pode até sentir que flutua por um instante.”',
-          author: 'Birgit K-M., Seelenlauscherin',
+            '"Cada movimento era deliberado, mas nunca mecânico — mais como uma conversa sem palavras. Quem busca um toque consciente e uma verdadeira consciência corporal está em boas mãos com Lalo."',
+          author: 'Malina E.',
         },
         {
           quote:
-            '“Para o meu trabalho como acrobata de circo, as massagens do Lalo são fundamentais para o relaxamento dos músculos e articulações!”',
-          author: 'Philine D., 43',
-        },
-        {
-          quote:
-            '“Ele é um profissional altamente qualificado e muito simpático. As dores na minha coluna desaparecem quando ele faz a massagem… Só tenho gratidão!”',
+            '"Ele é um profissional altamente qualificado e muito simpático. As dores na minha coluna, que são constantes, desaparecem quando ele faz a massagem, e também já notei melhorias na minha flexibilidade. Só tenho gratidão!"',
           author: 'Moema F-T.',
+        },
+        {
+          quote:
+            '"Fantástico! Para o meu trabalho como acrobata de circo, as massagens do Lalo são fundamentais para o relaxamento dos músculos e articulações!"',
+          author: 'Philine D.',
         },
       ],
     },
