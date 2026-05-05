@@ -19,10 +19,10 @@ export const LogoMark = ({
   ...rest
 }) => {
   const ringColor = filled ? cream : stroke;
-  // 11-point stylized maple leaf path, centered around (32,32) in the 64x64 viewBox.
+  // Stylized 11-point maple leaf (Canadian-style), centered at (32,32) in 64x64 viewBox.
   const mapleLeafPath =
-    'M32 14 L34 21 L39 18 L37 25 L44 24 L40 30 L47 32 L40 34 L43 40 L36 39 L35 46 L32 48 L29 46 L28 39 L21 40 L24 34 L17 32 L24 30 L20 24 L27 25 L25 18 L30 21 Z';
-  const stemPath = 'M32 48 L32 52';
+    'M32 14 L34 22 L42 20 L39 28 L49 29 L43 33 L50 37 L40 37 L43 46 L34 42 L32 50 L30 42 L21 46 L24 37 L14 37 L21 33 L15 29 L25 28 L22 20 L30 22 Z';
+  const stemPath = 'M32 50 L32 55';
 
   return (
     <svg
@@ -69,9 +69,9 @@ export const LogoMark = ({
           />
           {/* Subtle vein accent in turquoise */}
           <path
-            d="M32 21 L32 44"
+            d="M32 24 L32 45"
             stroke={accent}
-            strokeOpacity="0.55"
+            strokeOpacity="0.6"
             strokeWidth="0.7"
             strokeLinecap="round"
           />
