@@ -30,7 +30,7 @@ export const translations = {
       body1:
         "At Tranquilário Studio, each session is a journey into stillness and renewal. Lalo’s touch carries more than technique — it reflects presence, empathy, and deep listening.",
       body2:
-        "His path with the body began with Traditional Thai Massage training at ITM in the early 2000s, followed by his diploma as an Alexander Technique teacher in 2006. For nearly two decades he has taught and practiced the Alexander work — and more recently has woven the two modalities together, where mindful re-education meets the rhythm and depth of Thai bodywork.",
+        "His work with the body began in the early 2000s, and in 2006 he completed his diploma as an Alexander Technique teacher. Two decades later, in 2024, he turned toward Traditional Thai Massage, completing Level 1 and Level 2 training with ITM — and now weaves the two modalities into a single practice where mindful re-education meets the rhythm and depth of Thai bodywork.",
       quote:
         '"Nothing about his approach feels mechanical. Everything he does is filled with awareness, love, empathy, and respect — both for his work and for the person receiving it."',
       quoteAuthor: '— Jan M., 57, Tischlermeister',
@@ -144,7 +144,7 @@ export const translations = {
       body1:
         'Im Tranquilário Studio ist jede Sitzung eine Reise in Stille und Erneuerung. Lalos Berührung trägt mehr als Technik — sie spiegelt Präsenz, Empathie und tiefes Zuhören.',
       body2:
-        'Aus jahrelanger Praxis in Körperbewusstsein durch Thai-Massage, Alexander-Technik und Bewegungserkundung bietet er Behandlungen, die der feinen Sprache des Körpers antworten.',
+        'Seine Arbeit mit dem Körper begann in den frühen 2000er-Jahren, und 2006 schloss er sein Diplom als Lehrer der Alexander-Technik ab. Zwei Jahrzehnte später, im Jahr 2024, wandte er sich der Traditionellen Thai-Massage zu und absolvierte die Ausbildungen Level 1 und Level 2 bei ITM — heute verwebt er beide Modalitäten zu einer Praxis, in der achtsame Re-Edukation auf den Rhythmus und die Tiefe der Thai-Körperarbeit trifft.',
       quote:
         '„Nichts an seinem Zugang wirkt mechanisch. Alles, was er tut, ist erfüllt von Bewusstsein, Liebe, Empathie und Respekt — sowohl für seine Arbeit als auch für den Menschen, der sie empfängt."',
       quoteAuthor: '— Jan M., 57, Tischlermeister',
@@ -258,7 +258,7 @@ export const translations = {
       body1:
         'Al Tranquilário Studio ogni seduta è un viaggio nella quiete e nel rinnovamento. Il tocco di Lalo porta più di una tecnica: riflette presenza, empatia e ascolto profondo.',
       body2:
-        "Il suo percorso con il corpo è cominciato con la formazione in Massaggio Thai Tradizionale presso ITM nei primi anni 2000, seguita dal diploma di insegnante di Tecnica Alexander nel 2006. Per quasi due decenni ha insegnato e praticato l'Alexander — e negli ultimi anni ha intrecciato le due modalità in un'unica pratica, dove la rieducazione consapevole incontra il ritmo e la profondità del lavoro corporeo thailandese.",
+        "Il suo lavoro con il corpo è cominciato nei primi anni 2000, e nel 2006 ha conseguito il diploma di insegnante di Tecnica Alexander. Due decenni più tardi, nel 2024, si è dedicato al Massaggio Thai Tradizionale, completando i corsi di Livello 1 e Livello 2 con ITM — e oggi intreccia le due modalità in un'unica pratica, dove la rieducazione consapevole incontra il ritmo e la profondità del lavoro corporeo thailandese.",
       quote:
         '"Nulla del suo approccio è meccanico. Tutto ciò che fa è intriso di consapevolezza, amore, empatia e rispetto — sia per il suo lavoro sia per la persona che lo riceve."',
       quoteAuthor: '— Jan M., 57, Tischlermeister',
@@ -372,7 +372,7 @@ export const translations = {
       body1:
         'No Tranquilário Studio, cada sessão é uma jornada de quietude e renovação. O toque de Lalo carrega mais do que técnica — reflete presença, empatia e escuta profunda.',
       body2:
-        'Seu caminho com o corpo começou com a formação em Massagem Tailandesa Tradicional no ITM no início dos anos 2000, seguida pelo diploma de professor da Técnica Alexander em 2006. Por quase duas décadas ensinou e praticou a Alexander — e nos últimos anos teceu as duas modalidades em uma só prática, onde a reeducação consciente encontra o ritmo e a profundidade do trabalho corporal tailandês.',
+        'Seu trabalho com o corpo começou no início dos anos 2000, e em 2006 concluiu o diploma de professor da Técnica Alexander. Duas décadas depois, em 2024, voltou-se para a Massagem Tailandesa Tradicional, concluindo os cursos de Nível 1 e Nível 2 com a ITM — e hoje tece as duas modalidades em uma só prática, onde a reeducação consciente encontra o ritmo e a profundidade do trabalho corporal tailandês.',
       quote:
         '"Nada na sua abordagem é mecânico. Tudo o que ele faz é preenchido de consciência, amor, empatia e respeito — tanto pelo seu trabalho quanto pela pessoa que o recebe."',
       quoteAuthor: '— Jan M., 57, Tischlermeister',
