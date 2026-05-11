@@ -30,16 +30,16 @@ export const translations = {
       body1:
         "At Tranquilário Studio, each session is a journey into stillness and renewal. Lalo’s touch carries more than technique — it reflects presence, empathy, and deep listening.",
       body2:
-        "Drawing from years of practice in body-awareness through Thai Massage, the Alexander Technique, and movement exploration, he offers treatments that respond to the body’s subtle language.",
+        "His path with the body began with Traditional Thai Massage training at ITM in the early 2000s, followed by his diploma as an Alexander Technique teacher in 2006. For nearly two decades he has taught and practiced the Alexander work — and more recently has woven the two modalities together, where mindful re-education meets the rhythm and depth of Thai bodywork.",
       quote:
         '"Nothing about his approach feels mechanical. Everything he does is filled with awareness, love, empathy, and respect — both for his work and for the person receiving it."',
       quoteAuthor: '— Jan M., 57, Tischlermeister',
     },
     sessions: {
       overline: 'Sessions',
-      title: 'Three practices, one dialogue.',
+      title: 'Two practices, one dialogue.',
       intro:
-        'Each treatment is adapted to the individual. Sessions may include rhythmic stretches, sustained holds, gentle compression, and breathing guidance — always with sensitivity and care.',
+        "Each treatment is adapted to the individual. Sessions may include rhythmic stretches, sustained holds, gentle compression, and breathing guidance — always woven with body awareness, sensitivity and care.",
       items: [
         {
           title: 'Traditional Thai Massage',
@@ -48,10 +48,6 @@ export const translations = {
         {
           title: 'Alexander Technique',
           body: 'A mindful re-education of posture and movement — releasing habitual tension and inviting ease in everyday gestures.',
-        },
-        {
-          title: 'Body Awareness',
-          body: 'Guided attention and breath. A quiet exploration of how the body organises itself, returning to presence and inner listening.',
         },
       ],
       note: 'Contact for rates — every session is tailored to you.',
@@ -155,9 +151,9 @@ export const translations = {
     },
     sessions: {
       overline: 'Sitzungen',
-      title: 'Drei Praktiken, ein Dialog.',
+      title: 'Zwei Praktiken, ein Dialog.',
       intro:
-        'Jede Behandlung wird individuell angepasst. Sitzungen können rhythmische Dehnungen, sanfte Kompression, gehaltene Positionen und Atemanleitung beinhalten — stets mit Feingefühl und Sorgfalt.',
+        'Jede Behandlung wird individuell angepasst. Sitzungen können rhythmische Dehnungen, sanfte Kompression, gehaltene Positionen und Atemanleitung beinhalten — stets verwoben mit Körperbewusstsein, Feingefühl und Sorgfalt.',
       items: [
         {
           title: 'Traditionelle Thai-Massage',
@@ -166,10 +162,6 @@ export const translations = {
         {
           title: 'Alexander-Technik',
           body: 'Eine achtsame Re-Edukation von Haltung und Bewegung — löst gewohnte Spannungen und lädt Leichtigkeit in alltägliche Gesten ein.',
-        },
-        {
-          title: 'Körperbewusstsein',
-          body: 'Geführte Aufmerksamkeit und Atem. Eine ruhige Erkundung, wie der Körper sich organisiert, als Rückkehr zur Präsenz und zum inneren Zuhören.',
         },
       ],
       note: 'Preise auf Anfrage — jede Sitzung ist individuell gestaltet.',
@@ -266,16 +258,16 @@ export const translations = {
       body1:
         'Al Tranquilário Studio ogni seduta è un viaggio nella quiete e nel rinnovamento. Il tocco di Lalo porta più di una tecnica: riflette presenza, empatia e ascolto profondo.',
       body2:
-        "Da anni di pratica nella consapevolezza corporea attraverso il Massaggio Thai, la Tecnica Alexander e l'esplorazione del movimento, offre trattamenti che rispondono al linguaggio sottile del corpo.",
+        "Il suo percorso con il corpo è cominciato con la formazione in Massaggio Thai Tradizionale presso ITM nei primi anni 2000, seguita dal diploma di insegnante di Tecnica Alexander nel 2006. Per quasi due decenni ha insegnato e praticato l'Alexander — e negli ultimi anni ha intrecciato le due modalità in un'unica pratica, dove la rieducazione consapevole incontra il ritmo e la profondità del lavoro corporeo thailandese.",
       quote:
         '"Nulla del suo approccio è meccanico. Tutto ciò che fa è intriso di consapevolezza, amore, empatia e rispetto — sia per il suo lavoro sia per la persona che lo riceve."',
       quoteAuthor: '— Jan M., 57, Tischlermeister',
     },
     sessions: {
       overline: 'Sedute',
-      title: 'Tre pratiche, un unico dialogo.',
+      title: 'Due pratiche, un unico dialogo.',
       intro:
-        'Ogni trattamento è adattato alla persona. Le sedute possono includere allungamenti ritmici, mantenimenti, compressioni delicate e guida del respiro — sempre con sensibilità e cura.',
+        'Ogni trattamento è adattato alla persona. Le sedute possono includere allungamenti ritmici, mantenimenti, compressioni delicate e guida del respiro — sempre intrecciate con consapevolezza corporea, sensibilità e cura.',
       items: [
         {
           title: 'Massaggio Thai Tradizionale',
@@ -284,10 +276,6 @@ export const translations = {
         {
           title: 'Tecnica Alexander',
           body: 'Una rieducazione consapevole di postura e movimento — scioglie le tensioni abituali e invita la leggerezza nei gesti quotidiani.',
-        },
-        {
-          title: 'Consapevolezza Corporea',
-          body: 'Attenzione guidata e respiro. Una silenziosa esplorazione di come il corpo si organizza, un ritorno alla presenza e all\u2019ascolto interno.',
         },
       ],
       note: 'Tariffe su richiesta — ogni seduta è disegnata su di te.',
@@ -384,16 +372,16 @@ export const translations = {
       body1:
         'No Tranquilário Studio, cada sessão é uma jornada de quietude e renovação. O toque de Lalo carrega mais do que técnica — reflete presença, empatia e escuta profunda.',
       body2:
-        'Com anos de prática em consciência corporal através da Massagem Tailandesa, da Técnica Alexander e da exploração do movimento, oferece tratamentos que respondem à linguagem sutil do corpo.',
+        'Seu caminho com o corpo começou com a formação em Massagem Tailandesa Tradicional no ITM no início dos anos 2000, seguida pelo diploma de professor da Técnica Alexander em 2006. Por quase duas décadas ensinou e praticou a Alexander — e nos últimos anos teceu as duas modalidades em uma só prática, onde a reeducação consciente encontra o ritmo e a profundidade do trabalho corporal tailandês.',
       quote:
         '"Nada na sua abordagem é mecânico. Tudo o que ele faz é preenchido de consciência, amor, empatia e respeito — tanto pelo seu trabalho quanto pela pessoa que o recebe."',
       quoteAuthor: '— Jan M., 57, Tischlermeister',
     },
     sessions: {
       overline: 'Sessões',
-      title: 'Três práticas, um só diálogo.',
+      title: 'Duas práticas, um só diálogo.',
       intro:
-        'Cada tratamento é adaptado à pessoa. As sessões podem incluir alongamentos rítmicos, sustentações, compressões suaves e orientação da respiração — sempre com sensibilidade e cuidado.',
+        'Cada tratamento é adaptado à pessoa. As sessões podem incluir alongamentos rítmicos, sustentações, compressões suaves e orientação da respiração — sempre entrelaçadas com consciência corporal, sensibilidade e cuidado.',
       items: [
         {
           title: 'Massagem Tailandesa Tradicional',
@@ -402,10 +390,6 @@ export const translations = {
         {
           title: 'Técnica Alexander',
           body: 'Uma reeducação consciente da postura e do movimento — libera tensões habituais e convida leveza aos gestos do dia a dia.',
-        },
-        {
-          title: 'Consciência Corporal',
-          body: 'Atenção guiada e respiração. Uma exploração silenciosa de como o corpo se organiza, um retorno à presença e à escuta interna.',
         },
       ],
       note: 'Valores sob consulta — cada sessão é desenhada para você.',
