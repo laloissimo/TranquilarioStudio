@@ -11,6 +11,8 @@ const initialForm = {
   email: '',
   phone: '',
   preferred_session: '',
+  referral_source: '',
+  referral_other: '',
   message: '',
 };
 
@@ -178,6 +180,40 @@ export const Contact = () => {
                 </select>
               </div>
             </div>
+
+            <div className="mt-6">
+              <label className="text-[0.72rem] tracking-[0.24em] uppercase text-ink-soft/80">
+                {t.contact.referral}
+              </label>
+              <select
+                name="referral_source"
+                value={form.referral_source}
+                onChange={onChange}
+                data-testid="contact-input-referral"
+                className="quiet-input bg-transparent"
+              >
+                <option value="">—</option>
+                {t.contact.referralOptions.map((opt) => (
+                  <option key={opt} value={opt}>{opt}</option>
+                ))}
+              </select>
+            </div>
+
+            {form.referral_source === t.contact.referralOptions[t.contact.referralOptions.length - 1] && (
+              <div className="mt-2">
+                <label className="text-[0.72rem] tracking-[0.24em] uppercase text-ink-soft/80">
+                  {t.contact.referralOther}
+                </label>
+                <input
+                  name="referral_other"
+                  value={form.referral_other}
+                  onChange={onChange}
+                  data-testid="contact-input-referral-other"
+                  className="quiet-input"
+                  placeholder="—"
+                />
+              </div>
+            )}
 
             <div className="mt-6">
               <label className="text-[0.72rem] tracking-[0.24em] uppercase text-ink-soft/80">

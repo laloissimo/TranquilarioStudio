@@ -39,11 +39,15 @@ api_router = APIRouter(prefix="/api")
 
 
 def _build_contact_email_html(contact: 'Contact') -> str:
+    referral = contact.referral_source or "—"
+    if contact.referral_other:
+        referral = f"{referral} ({contact.referral_other})"
     rows = [
         ("Name", contact.name),
         ("Email", contact.email),
         ("Phone", contact.phone or "—"),
         ("Preferred session", contact.preferred_session or "—"),
+        ("Heard about Lalo via", referral),
         ("Language", contact.language),
         ("Received", contact.created_at.strftime("%Y-%m-%d %H:%M UTC")),
     ]
@@ -112,6 +116,8 @@ class ContactCreate(BaseModel):
     email: EmailStr
     phone: Optional[str] = Field(default=None, max_length=40)
     preferred_session: Optional[str] = Field(default=None, max_length=60)
+    referral_source: Optional[str] = Field(default=None, max_length=60)
+    referral_other: Optional[str] = Field(default=None, max_length=200)
     message: str = Field(min_length=1, max_length=2000)
     language: Optional[str] = Field(default="en", max_length=8)
 
@@ -123,6 +129,8 @@ class Contact(BaseModel):
     email: EmailStr
     phone: Optional[str] = None
     preferred_session: Optional[str] = None
+    referral_source: Optional[str] = None
+    referral_other: Optional[str] = None
     message: str
     language: str = "en"
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
