@@ -121,6 +121,8 @@ export const translations = {
       rights: '© 2026 Lalo Porto',
       navTitle: 'Navigate',
       contactTitle: 'Contact',
+      intakeForm: 'New client intake',
+      feedbackForm: 'Share feedback',
     },
   },
 
@@ -235,6 +237,8 @@ export const translations = {
       rights: '© 2026 Lalo Porto',
       navTitle: 'Navigation',
       contactTitle: 'Kontakt',
+      intakeForm: 'Erstkunden-Formular',
+      feedbackForm: 'Feedback geben',
     },
   },
 
@@ -352,6 +356,8 @@ export const translations = {
       rights: '© 2026 Lalo Porto',
       navTitle: 'Naviga',
       contactTitle: 'Contatti',
+      intakeForm: 'Modulo nuovo cliente',
+      feedbackForm: 'Lascia un feedback',
     },
   },
 
@@ -469,6 +475,8 @@ export const translations = {
       rights: '© 2026 Lalo Porto',
       navTitle: 'Navegar',
       contactTitle: 'Contato',
+      intakeForm: 'Formulário de novo cliente',
+      feedbackForm: 'Deixar feedback',
     },
   },
 };

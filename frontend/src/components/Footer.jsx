@@ -69,9 +69,29 @@ export const Footer = () => {
         </div>
 
         <div className="hairline mt-16 opacity-20" />
-        <div className="mt-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 text-xs text-[#EFEAE2]/50">
+        <div className="mt-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 text-xs text-[#EFEAE2]/50">
           <span data-testid="footer-rights">{t.footer.rights}</span>
-          <span className="tracking-[0.2em] uppercase">Tranquilário Studio</span>
+          <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
+            <a
+              href="https://tally.so/r/mB6EkQ"
+              target="_blank"
+              rel="noopener noreferrer"
+              data-testid="footer-intake-link"
+              className="tracking-[0.2em] uppercase text-[#EFEAE2]/55 hover:text-white transition-colors"
+            >
+              {t.footer.intakeForm}
+            </a>
+            <a
+              href="https://tally.so/r/nGgJW2"
+              target="_blank"
+              rel="noopener noreferrer"
+              data-testid="footer-feedback-link"
+              className="tracking-[0.2em] uppercase text-[#EFEAE2]/55 hover:text-white transition-colors"
+            >
+              {t.footer.feedbackForm}
+            </a>
+            <span className="tracking-[0.2em] uppercase">Tranquilário Studio</span>
+          </div>
         </div>
       </div>
     </footer>
