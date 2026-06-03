@@ -18,7 +18,7 @@ jobs:
       - name: Build
         working-directory: frontend
         run: CI=false npm run build
-      - uses: actions/upload-pages-artifact@v2
+      - uses: actions/upload-pages-artifact@v3
         with:
           path: frontend/build
-      - uses: actions/deploy-pages@v2
+      - uses: actions/deploy-pages@v4
