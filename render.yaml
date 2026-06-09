@@ -1,10 +1,9 @@
 services:
   - type: web
     name: tranquilario-backend
-    runtime: python
+    runtime: docker
     rootDir: backend
-    buildCommand: pip install -r requirements-render.txt
-    startCommand: uvicorn server:app --host 0.0.0.0 --port $PORT
+    dockerfilePath: ./Dockerfile
     envVars:
       - key: MONGO_URL
         sync: false
