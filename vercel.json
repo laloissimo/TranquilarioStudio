@@ -1,0 +1,8 @@
+{
+  "buildCommand": "cd frontend && npm install --legacy-peer-deps && CI=false NODE_OPTIONS=--openssl-legacy-provider npm run build",
+  "outputDirectory": "frontend/build",
+  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }],
+  "env": {
+    "PUBLIC_URL": "/"
+  }
+}
