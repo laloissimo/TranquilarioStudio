@@ -80,9 +80,7 @@ export const Footer = () => {
               {t.footer.intakeForm}
             </a>
             <a
-              href="https://tally.so/r/nGgJW2"
-              target="_blank"
-              rel="noopener noreferrer"
+              href="/feedback"
               data-testid="footer-feedback-link"
               className="tracking-[0.2em] uppercase text-[#EFEAE2]/55 hover:text-white transition-colors"
             >

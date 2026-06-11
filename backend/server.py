@@ -85,6 +85,19 @@ class IntakeCreate(BaseModel):
         return None if v == '' else v
 
 
+class FeedbackCreate(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    rating: Optional[str] = Field(default=None, max_length=60)
+    feelings: Optional[list] = None
+    comments: str = Field(min_length=1, max_length=4000)
+    review_permission: Optional[str] = Field(default=None, max_length=20)
+    full_name: str = Field(min_length=1, max_length=120)
+    profession: Optional[str] = Field(default=None, max_length=120)
+    age: Optional[str] = Field(default=None, max_length=10)
+    mailing_list: Optional[str] = Field(default=None, max_length=20)
+    language: Optional[str] = Field(default="en", max_length=8)
+
+
 # ----- Email builders -----
 def _build_contact_email_html(contact: Contact) -> str:
     referral = contact.referral_source or "—"
@@ -223,6 +236,55 @@ def _build_intake_email_html(intake: IntakeCreate) -> str:
     """
 
 
+def _build_feedback_email_html(fb: FeedbackCreate) -> str:
+    review_map = {'yes_named': 'Yes (with name)', 'yes_anon': 'Yes (anonymously)', 'no': 'No'}
+    mailing_map = {'yes': 'Yes', 'no': 'No', 'already': 'Already subscribed'}
+    feelings_str = ', '.join(fb.feelings) if fb.feelings else '—'
+    rows = [
+        ("Name", fb.full_name),
+        ("Profession", fb.profession or "—"),
+        ("Age", fb.age or "—"),
+        ("Language", fb.language or "en"),
+        ("Rating", fb.rating or "—"),
+        ("Post-session feelings", feelings_str),
+        ("Review permission", review_map.get(fb.review_permission or '', fb.review_permission or '—')),
+        ("Mailing list", mailing_map.get(fb.mailing_list or '', fb.mailing_list or '—')),
+    ]
+    row_html = "".join(
+        f'<tr>'
+        f'<td style="padding:7px 14px;color:#5C605A;font-family:Manrope,Arial,sans-serif;font-size:11px;text-transform:uppercase;letter-spacing:.12em;width:180px;vertical-align:top;border-bottom:1px solid rgba(74,93,78,0.08);">{escape(str(k))}</td>'
+        f'<td style="padding:7px 14px;color:#2B2E2A;font-family:Manrope,Arial,sans-serif;font-size:13px;border-bottom:1px solid rgba(74,93,78,0.08);">{escape(str(v))}</td>'
+        f'</tr>'
+        for k, v in rows
+    )
+    safe_comments = escape(fb.comments).replace("\n", "<br/>")
+    received_at = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
+    return f"""
+    <div style="background:#F4F1ED;padding:32px 0;font-family:Manrope,Arial,sans-serif;">
+      <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="600" style="margin:0 auto;background:#ffffff;border:1px solid rgba(74,93,78,0.15);border-radius:20px;overflow:hidden;">
+        <tr>
+          <td style="padding:28px 32px;background:#3A4A3E;color:#F4F1ED;">
+            <div style="font-family:'Cormorant Garamond',Georgia,serif;font-size:24px;font-weight:300;letter-spacing:.01em;">Tranquilário Studio</div>
+            <div style="font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:#7FA8A0;margin-top:6px;">Session feedback — {escape(fb.full_name)}</div>
+            <div style="font-size:11px;color:#7FA8A0;margin-top:4px;">Received {received_at}</div>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding:24px 32px 8px;">
+            <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">{row_html}</table>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding:16px 32px 28px;">
+            <div style="font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#5E8B82;margin-bottom:10px;">Comments</div>
+            <div style="font-size:15px;color:#2B2E2A;line-height:1.6;background:#F4F1ED;border-left:3px solid #5E8B82;padding:16px 18px;border-radius:8px;">{safe_comments}</div>
+          </td>
+        </tr>
+      </table>
+    </div>
+    """
+
+
 # ----- Email senders -----
 async def _send_contact_email(contact: Contact) -> None:
     if not RESEND_API_KEY:
@@ -273,6 +335,24 @@ async def _send_intake_email(intake: IntakeCreate) -> None:
         logger.error(f"Resend: failed to send intake email: {e}")
 
 
+async def _send_feedback_email(fb: FeedbackCreate) -> None:
+    if not RESEND_API_KEY:
+        logger.warning("RESEND_API_KEY not configured — skipping feedback email")
+        return
+    params = {
+        "from": f"Tranquilário Studio <{SENDER_EMAIL}>",
+        "to": [RECIPIENT_EMAIL],
+        "subject": f"Session feedback — {fb.full_name}",
+        "html": _build_feedback_email_html(fb),
+    }
+    try:
+        email = await asyncio.to_thread(resend.Emails.send, params)
+        email_id = email.get("id") if isinstance(email, dict) else None
+        logger.info(f"Resend: feedback email sent for {fb.full_name} (id={email_id})")
+    except Exception as e:
+        logger.error(f"Resend: failed to send feedback email: {e}")
+
+
 # ----- Routes -----
 @api_router.get("/")
 async def root():
@@ -290,6 +370,13 @@ async def create_contact(payload: ContactCreate):
     logger.info(f"New contact request from {contact.email} ({contact.language})")
     await _send_contact_email(contact)
     return contact
+
+
+@api_router.post("/feedback")
+async def create_feedback(payload: FeedbackCreate):
+    logger.info(f"New feedback from {payload.full_name} ({payload.language})")
+    await _send_feedback_email(payload)
+    return {"status": "received"}
 
 
 @api_router.post("/intake")
