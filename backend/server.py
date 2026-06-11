@@ -4,6 +4,7 @@ from starlette.middleware.cors import CORSMiddleware
 from motor.motor_asyncio import AsyncIOMotorClient
 import os
 import asyncio
+import json
 import logging
 import resend
 from pathlib import Path
@@ -23,9 +24,14 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-mongo_url = os.environ['MONGO_URL']
-client = AsyncIOMotorClient(mongo_url)
-db = client[os.environ['DB_NAME']]
+mongo_url = os.environ.get('MONGO_URL')
+if mongo_url:
+    client = AsyncIOMotorClient(mongo_url)
+    db = client[os.environ.get('DB_NAME', 'tranquilario')]
+else:
+    client = None
+    db = None
+    logger.warning("MONGO_URL not set — running in file-fallback-only mode")
 
 # Resend configuration
 RESEND_API_KEY = os.environ.get('RESEND_API_KEY')
@@ -33,6 +39,34 @@ SENDER_EMAIL = os.environ.get('SENDER_EMAIL', 'onboarding@resend.dev')
 RECIPIENT_EMAIL = os.environ.get('RECIPIENT_EMAIL', 'tranquilario@pm.me')
 if RESEND_API_KEY:
     resend.api_key = RESEND_API_KEY
+
+# JSON fallback for when MongoDB is unavailable
+FALLBACK_FILE = ROOT_DIR / 'contacts_fallback.json'
+_fallback_lock = asyncio.Lock()
+
+
+async def _save_to_fallback(doc: dict) -> None:
+    async with _fallback_lock:
+        existing = []
+        if FALLBACK_FILE.exists():
+            try:
+                existing = json.loads(FALLBACK_FILE.read_text())
+            except Exception:
+                existing = []
+        existing.append(doc)
+        FALLBACK_FILE.write_text(json.dumps(existing, indent=2))
+    logger.info("Contact saved to fallback file (MongoDB unavailable)")
+
+
+async def _load_from_fallback() -> list:
+    async with _fallback_lock:
+        if not FALLBACK_FILE.exists():
+            return []
+        try:
+            return json.loads(FALLBACK_FILE.read_text())
+        except Exception:
+            return []
+
 
 app = FastAPI(title="Tranquilário Studio API")
 api_router = APIRouter(prefix="/api")
@@ -88,7 +122,6 @@ def _build_contact_email_html(contact: 'Contact') -> str:
 
 
 async def _send_contact_email(contact: 'Contact') -> Optional[str]:
-    """Send a transactional email to the studio. Returns the Resend email id on success, None on failure."""
     if not RESEND_API_KEY:
         logger.warning("RESEND_API_KEY not configured — skipping email send")
         return None
@@ -149,24 +182,43 @@ async def health():
 
 @api_router.post("/contact", response_model=Contact)
 async def create_contact(payload: ContactCreate):
-    try:
-        contact = Contact(**payload.model_dump())
-        doc = contact.model_dump()
-        doc['created_at'] = doc['created_at'].isoformat()
-        await db.contacts.insert_one(doc)
-        logger.info(f"New contact request from {contact.email} ({contact.language})")
-    except Exception as e:
-        logger.exception("Failed to save contact")
-        raise HTTPException(status_code=500, detail=f"Could not save contact: {e}")
+    contact = Contact(**payload.model_dump())
+    doc = contact.model_dump()
+    doc['created_at'] = doc['created_at'].isoformat()
 
-    # Fire-and-forget style email (awaited, but failure does not break the request)
+    saved_to_mongo = False
+    if db is not None:
+        try:
+            await db.contacts.insert_one(doc)
+            logger.info(f"New contact request from {contact.email} ({contact.language})")
+            saved_to_mongo = True
+        except Exception as e:
+            logger.warning(f"MongoDB unavailable ({e}), falling back to local file")
+
+    if not saved_to_mongo:
+        try:
+            await _save_to_fallback(doc)
+        except Exception as e:
+            logger.exception("Fallback file save failed")
+            raise HTTPException(status_code=500, detail="Could not save contact")
+
     await _send_contact_email(contact)
     return contact
 
 
 @api_router.get("/contacts", response_model=List[Contact])
 async def list_contacts(limit: int = 100):
-    items = await db.contacts.find({}, {"_id": 0}).sort("created_at", -1).to_list(limit)
+    items = []
+    if db is not None:
+        try:
+            items = await db.contacts.find({}, {"_id": 0}).sort("created_at", -1).to_list(limit)
+        except Exception as e:
+            logger.warning(f"MongoDB unavailable ({e}), reading from fallback file")
+
+    if not items:
+        items = await _load_from_fallback()
+        items = sorted(items, key=lambda x: x.get('created_at', ''), reverse=True)[:limit]
+
     for it in items:
         if isinstance(it.get('created_at'), str):
             try:
@@ -188,4 +240,5 @@ app.add_middleware(
 
 @app.on_event("shutdown")
 async def shutdown_db_client():
-    client.close()
+    if client is not None:
+        client.close()
