@@ -318,6 +318,7 @@ export default function IntakeForm() {
   const [hasDrawn, setHasDrawn] = useState(false);
   const [validationMsg, setValidationMsg] = useState('');
   const [status, setStatus] = useState('idle');
+  const [errorDetail, setErrorDetail] = useState('');
   const canvasRef = useRef(null);
 
   const set = (key) => (e) => {
@@ -360,9 +361,12 @@ export default function IntakeForm() {
     } catch (err) {
       const detail = err?.response?.data?.detail;
       const msg = Array.isArray(detail)
-        ? detail.map(d => d.msg).join('; ')
-        : detail || err?.message || 'Unknown error';
-      console.error('Intake submission failed:', msg, err);
+        ? detail.map(d => `[${d.loc?.join('.')}] ${d.msg}`).join(' | ')
+        : typeof detail === 'string'
+          ? detail
+          : err?.message || 'Unknown error';
+      console.error('Intake submission failed:', msg, err?.response?.data);
+      setErrorDetail(`${err?.response?.status ?? ''} ${msg}`.trim());
       setStatus('error');
     }
   };
@@ -515,7 +519,7 @@ export default function IntakeForm() {
             </p>
           )}
           {status === 'error' && (
-            <p className="mt-6 text-sm text-[#B44B3C]">{t.error}</p>
+            <p className="mt-6 text-sm text-[#B44B3C] font-mono break-all">{errorDetail || t.error}</p>
           )}
 
           {/* Submit */}
