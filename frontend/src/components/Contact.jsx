@@ -174,7 +174,7 @@ export const Contact = () => {
                   className="quiet-input bg-transparent"
                 >
                   <option value="">—</option>
-                  {t.contact.preferredOptions.map((opt) => (
+                  {(t.contact?.preferredOptions || []).map((opt) => (
                     <option key={opt} value={opt}>{opt}</option>
                   ))}
                 </select>
@@ -193,7 +193,7 @@ export const Contact = () => {
                 className="quiet-input bg-transparent"
               >
                 <option value="">—</option>
-                {t.contact.referralOptions.map((opt) => (
+                {(t.contact?.referralOptions || []).map((opt) => (
                   <option key={opt} value={opt}>{opt}</option>
                 ))}
               </select>

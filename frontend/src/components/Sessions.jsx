@@ -40,7 +40,7 @@ export const Sessions = () => {
 
           <div className="md:col-span-7">
             <ul className="divide-y divide-[rgba(74,93,78,0.16)] border-t border-hairline">
-              {t.sessions.items.map((item, i) => {
+              {(t.sessions?.items || []).map((item, i) => {
                 const Icon = ICONS[i] || Leaf;
                 return (
                   <li

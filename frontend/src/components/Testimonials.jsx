@@ -66,7 +66,7 @@ export const Testimonials = () => {
 
         <div className="mt-14 overflow-hidden" ref={emblaRef}>
           <div className="flex">
-            {t.testimonials.items.map((item, i) => (
+            {(t.testimonials?.items || []).map((item, i) => (
               <article
                 key={i}
                 data-testid={`testimonial-card-${i}`}
@@ -87,7 +87,7 @@ export const Testimonials = () => {
         </div>
 
         <div className="mt-10 flex items-center gap-2">
-          {t.testimonials.items.map((_, i) => (
+          {(t.testimonials?.items || []).map((_, i) => (
             <span
               key={i}
               data-testid={`testimonials-dot-${i}`}
