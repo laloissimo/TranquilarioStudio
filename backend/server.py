@@ -26,7 +26,7 @@ logger = logging.getLogger(__name__)
 
 mongo_url = os.environ.get('MONGO_URL')
 if mongo_url:
-    client = AsyncIOMotorClient(mongo_url)
+    client = AsyncIOMotorClient(mongo_url, serverSelectionTimeoutMS=5000)
     db = client[os.environ.get('DB_NAME', 'tranquilario')]
 else:
     client = None
