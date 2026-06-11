@@ -1,4 +1,5 @@
 {
+  "framework": "create-react-app",
   "buildCommand": "npm install --legacy-peer-deps && CI=false NODE_OPTIONS=--openssl-legacy-provider npm run build",
   "outputDirectory": "build",
   "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }],
