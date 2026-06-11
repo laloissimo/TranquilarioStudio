@@ -289,10 +289,22 @@ const CheckRow = ({ checked, onChange, label }) => (
   </label>
 );
 
+const PAGE_TITLES = {
+  en: 'Intake Form — Tranquilário Studio',
+  de: 'Anmeldebogen — Tranquilário Studio',
+  it: 'Modulo di anamnese — Tranquilário Studio',
+  pt: 'Formulário de anamnese — Tranquilário Studio',
+};
+
 // ── Main component ────────────────────────────────────────────────────────────
 export default function IntakeForm() {
   const [lang, setLang] = useState('en');
   const t = T[lang];
+
+  useEffect(() => {
+    document.title = PAGE_TITLES[lang] || 'Intake Form — Tranquilário Studio';
+    return () => { document.title = 'Tranquilário Studio'; };
+  }, [lang]);
 
   const [form, setForm] = useState({
     fullName: '', birthday: '', age: '', phone: '', email: '',
@@ -324,25 +336,33 @@ export default function IntakeForm() {
     setStatus('submitting');
     try {
       const signature = canvasRef.current.toDataURL('image/png');
+      // Send undefined (omitted) for empty optional strings so pydantic
+      // receives null rather than "", which would fail EmailStr validation.
+      const str = (v) => v || undefined;
       await axios.post(`${BACKEND_URL}/api/intake`, {
         full_name: form.fullName,
-        birthday: form.birthday,
-        age: form.age,
-        phone: form.phone,
-        email: form.email,
+        birthday: str(form.birthday),
+        age: str(form.age),
+        phone: str(form.phone),
+        email: str(form.email),
         heart_disease: form.heartDisease,
         high_blood_pressure: form.highBloodPressure,
         varicose_veins: form.varicoseVeins,
         pregnant: form.pregnant,
-        recent_injuries: form.recentInjuries,
-        other_complaints: form.otherComplaints,
-        client_name: form.clientName,
-        submission_date: form.date,
+        recent_injuries: str(form.recentInjuries),
+        other_complaints: str(form.otherComplaints),
+        client_name: str(form.clientName),
+        submission_date: str(form.date),
         signature,
         language: lang,
       });
       setStatus('success');
-    } catch {
+    } catch (err) {
+      const detail = err?.response?.data?.detail;
+      const msg = Array.isArray(detail)
+        ? detail.map(d => d.msg).join('; ')
+        : detail || err?.message || 'Unknown error';
+      console.error('Intake submission failed:', msg, err);
       setStatus('error');
     }
   };

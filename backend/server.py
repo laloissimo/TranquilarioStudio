@@ -6,7 +6,7 @@ import asyncio
 import logging
 import resend
 from pathlib import Path
-from pydantic import BaseModel, Field, EmailStr, ConfigDict
+from pydantic import BaseModel, Field, EmailStr, ConfigDict, field_validator
 from typing import Optional
 import uuid
 from datetime import datetime, timezone
@@ -78,6 +78,11 @@ class IntakeCreate(BaseModel):
     submission_date: Optional[str] = Field(default=None, max_length=20)
     signature: Optional[str] = None  # base64 data URL from canvas
     language: Optional[str] = Field(default="en", max_length=8)
+
+    @field_validator('email', mode='before')
+    @classmethod
+    def empty_email_to_none(cls, v):
+        return None if v == '' else v
 
 
 # ----- Email builders -----
