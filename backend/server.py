@@ -364,6 +364,17 @@ async def health():
     return {"status": "ok"}
 
 
+@api_router.get("/routes")
+async def list_routes():
+    return {
+        "routes": [
+            {"method": m, "path": r.path}
+            for r in app.routes
+            for m in getattr(r, "methods", [])
+        ]
+    }
+
+
 @api_router.post("/contact", response_model=Contact)
 async def create_contact(payload: ContactCreate):
     contact = Contact(**payload.model_dump())
