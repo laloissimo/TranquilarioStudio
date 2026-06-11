@@ -277,6 +277,7 @@ const textareaCls = `${inputCls} resize-none`;
 
 const CheckRow = ({ checked, onChange, label }) => (
   <label className="flex items-start gap-3 cursor-pointer group">
+    <input type="checkbox" checked={checked} onChange={onChange} className="sr-only" />
     <span className={`mt-0.5 flex-shrink-0 w-5 h-5 rounded border transition-colors flex items-center justify-center ${checked ? 'bg-earth border-earth' : 'border-hairline bg-white group-hover:border-turquoise'}`}>
       {checked && (
         <svg viewBox="0 0 10 8" className="w-2.5 h-2" fill="none">
