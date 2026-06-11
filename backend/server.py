@@ -24,9 +24,7 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 mongo_url = os.environ['MONGO_URL']
-if 'tls' not in mongo_url and 'ssl' not in mongo_url:
-    mongo_url += ('&' if '?' in mongo_url else '?') + 'tls=true&tlsInsecure=true'
-client = AsyncIOMotorClient(mongo_url, tlsInsecure=True)
+client = AsyncIOMotorClient(mongo_url)
 db = client[os.environ['DB_NAME']]
 
 # Resend configuration
