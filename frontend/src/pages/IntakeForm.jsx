@@ -361,12 +361,10 @@ export default function IntakeForm() {
     } catch (err) {
       const detail = err?.response?.data?.detail;
       const msg = Array.isArray(detail)
-        ? detail.map(d => `[${d.loc?.join('.')}] ${d.msg}`).join(' | ')
-        : typeof detail === 'string'
-          ? detail
-          : err?.message || 'Unknown error';
+        ? detail.map(d => d.msg).join('; ')
+        : detail || err?.message || 'Unknown error';
       console.error('Intake submission failed:', msg, err?.response?.data);
-      setErrorDetail(`${err?.response?.status ?? ''} ${msg}`.trim());
+      setErrorDetail(msg);
       setStatus('error');
     }
   };
