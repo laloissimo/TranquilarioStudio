@@ -73,9 +73,7 @@ export const Footer = () => {
           <span data-testid="footer-rights">{t.footer.rights}</span>
           <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
             <a
-              href="https://tally.so/r/mB6EkQ"
-              target="_blank"
-              rel="noopener noreferrer"
+              href="/intake"
               data-testid="footer-intake-link"
               className="tracking-[0.2em] uppercase text-[#EFEAE2]/55 hover:text-white transition-colors"
             >

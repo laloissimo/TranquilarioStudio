@@ -9,6 +9,7 @@ import Sessions from './components/Sessions';
 import Testimonials from './components/Testimonials';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
+import IntakeForm from './pages/IntakeForm';
 
 const Home = () => (
   <div className="App bg-sand text-ink">
@@ -30,6 +31,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/intake" element={<IntakeForm />} />
         </Routes>
       </BrowserRouter>
     </LanguageProvider>

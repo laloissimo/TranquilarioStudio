@@ -61,6 +61,26 @@ class Contact(BaseModel):
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
 
 
+class IntakeCreate(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    full_name: str = Field(min_length=1, max_length=120)
+    birthday: Optional[str] = Field(default=None, max_length=20)
+    age: Optional[str] = Field(default=None, max_length=10)
+    phone: Optional[str] = Field(default=None, max_length=40)
+    email: Optional[EmailStr] = None
+    heart_disease: bool = False
+    high_blood_pressure: bool = False
+    varicose_veins: bool = False
+    pregnant: bool = False
+    recent_injuries: Optional[str] = Field(default=None, max_length=2000)
+    other_complaints: Optional[str] = Field(default=None, max_length=2000)
+    client_name: Optional[str] = Field(default=None, max_length=120)
+    submission_date: Optional[str] = Field(default=None, max_length=20)
+    signature: Optional[str] = None  # base64 data URL from canvas
+    language: Optional[str] = Field(default="en", max_length=8)
+
+
+# ----- Email builders -----
 def _build_contact_email_html(contact: Contact) -> str:
     referral = contact.referral_source or "—"
     if contact.referral_other:
@@ -110,6 +130,95 @@ def _build_contact_email_html(contact: Contact) -> str:
     """
 
 
+def _build_intake_email_html(intake: IntakeCreate) -> str:
+    def yesno(val: bool) -> str:
+        return "Yes" if val else "No"
+
+    personal_rows = [
+        ("Full name", intake.full_name),
+        ("Date of birth", intake.birthday or "—"),
+        ("Age", intake.age or "—"),
+        ("Phone / WhatsApp", intake.phone or "—"),
+        ("Email", intake.email or "—"),
+        ("Language", intake.language or "en"),
+        ("Submission date", intake.submission_date or "—"),
+    ]
+
+    health_rows = [
+        ("Heart disease", yesno(intake.heart_disease)),
+        ("High blood pressure", yesno(intake.high_blood_pressure)),
+        ("Varicose veins", yesno(intake.varicose_veins)),
+        ("Pregnant", yesno(intake.pregnant)),
+        ("Recent injuries / surgeries", escape(intake.recent_injuries or "—")),
+        ("Other complaints", escape(intake.other_complaints or "—")),
+    ]
+
+    def rows_html(rows):
+        return "".join(
+            f'<tr>'
+            f'<td style="padding:7px 14px;color:#5C605A;font-family:Manrope,Arial,sans-serif;font-size:11px;text-transform:uppercase;letter-spacing:.12em;width:180px;vertical-align:top;border-bottom:1px solid rgba(74,93,78,0.08);">{escape(str(k))}</td>'
+            f'<td style="padding:7px 14px;color:#2B2E2A;font-family:Manrope,Arial,sans-serif;font-size:13px;border-bottom:1px solid rgba(74,93,78,0.08);">{str(v)}</td>'
+            f'</tr>'
+            for k, v in rows
+        )
+
+    received_at = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
+
+    return f"""
+    <div style="background:#F4F1ED;padding:32px 0;font-family:Manrope,Arial,sans-serif;">
+      <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="640" style="margin:0 auto;background:#ffffff;border:1px solid rgba(74,93,78,0.15);border-radius:20px;overflow:hidden;">
+
+        <tr>
+          <td style="padding:28px 32px;background:#3A4A3E;color:#F4F1ED;">
+            <div style="font-family:'Cormorant Garamond',Georgia,serif;font-size:24px;font-weight:300;letter-spacing:.01em;">Tranquilário Studio</div>
+            <div style="font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:#7FA8A0;margin-top:6px;">New client intake form — {escape(intake.full_name)}</div>
+            <div style="font-size:11px;color:#7FA8A0;margin-top:4px;">Received {received_at}</div>
+          </td>
+        </tr>
+
+        <tr>
+          <td style="padding:24px 32px 8px;">
+            <div style="font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#5E8B82;margin-bottom:10px;">Personal Information</div>
+            <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">{rows_html(personal_rows)}</table>
+          </td>
+        </tr>
+
+        <tr>
+          <td style="padding:20px 32px 8px;">
+            <div style="font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#5E8B82;margin-bottom:10px;">Health &amp; Medical History</div>
+            <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">{rows_html(health_rows)}</table>
+          </td>
+        </tr>
+
+        <tr>
+          <td style="padding:20px 32px 8px;">
+            <div style="font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#5E8B82;margin-bottom:10px;">Consent</div>
+            <div style="font-size:13px;color:#4A5D4E;background:#F4F1ED;border-left:3px solid #5E8B82;padding:14px 18px;border-radius:8px;">
+              All seven consent statements agreed ✓<br/>
+              <span style="font-size:11px;color:#5C605A;">Signed by: {escape(intake.client_name or intake.full_name)} — {escape(intake.submission_date or "—")}</span>
+            </div>
+          </td>
+        </tr>
+
+        <tr>
+          <td style="padding:20px 32px 28px;">
+            <div style="font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#5E8B82;margin-bottom:12px;">Signature</div>
+            <div style="font-size:12px;color:#5C605A;">See attached file: signature.png</div>
+          </td>
+        </tr>
+
+        <tr>
+          <td style="padding:14px 32px 20px;font-size:11px;color:#5C605A;border-top:1px solid rgba(74,93,78,0.12);">
+            {"Reply to client: <a href=\"mailto:" + escape(str(intake.email)) + "\" style=\"color:#4A5D4E;\">" + escape(str(intake.email)) + "</a>" if intake.email else "No email provided."}
+          </td>
+        </tr>
+
+      </table>
+    </div>
+    """
+
+
+# ----- Email senders -----
 async def _send_contact_email(contact: Contact) -> None:
     if not RESEND_API_KEY:
         logger.warning("RESEND_API_KEY not configured — skipping email send")
@@ -129,6 +238,36 @@ async def _send_contact_email(contact: Contact) -> None:
         logger.error(f"Resend: failed to send email: {e}")
 
 
+async def _send_intake_email(intake: IntakeCreate) -> None:
+    if not RESEND_API_KEY:
+        logger.warning("RESEND_API_KEY not configured — skipping intake email")
+        return
+
+    # Extract base64 content from data URL for attachment
+    sig_b64 = None
+    if intake.signature and "," in intake.signature:
+        sig_b64 = intake.signature.split(",", 1)[1]
+
+    reply_to = str(intake.email) if intake.email else None
+    params = {
+        "from": f"Tranquilário Studio <{SENDER_EMAIL}>",
+        "to": [RECIPIENT_EMAIL],
+        "subject": f"New intake form — {intake.full_name}",
+        "html": _build_intake_email_html(intake),
+    }
+    if reply_to:
+        params["reply_to"] = reply_to
+    if sig_b64:
+        params["attachments"] = [{"filename": "signature.png", "content": sig_b64}]
+
+    try:
+        email = await asyncio.to_thread(resend.Emails.send, params)
+        email_id = email.get("id") if isinstance(email, dict) else None
+        logger.info(f"Resend: intake email sent for {intake.full_name} (id={email_id})")
+    except Exception as e:
+        logger.error(f"Resend: failed to send intake email: {e}")
+
+
 # ----- Routes -----
 @api_router.get("/")
 async def root():
@@ -146,6 +285,13 @@ async def create_contact(payload: ContactCreate):
     logger.info(f"New contact request from {contact.email} ({contact.language})")
     await _send_contact_email(contact)
     return contact
+
+
+@api_router.post("/intake")
+async def create_intake(payload: IntakeCreate):
+    logger.info(f"New intake form from {payload.full_name} ({payload.language})")
+    await _send_intake_email(payload)
+    return {"status": "received"}
 
 
 app.include_router(api_router)
