@@ -9,7 +9,7 @@ const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || '';
 const T = {
   en: {
     back: '← Back to site',
-    pageTitle: 'New Client Intake Form',
+    pageTitle: 'Client Intake Form & Liability Waiver',
     pageSubtitle: 'Please complete this form before your first session. Your information is treated with full confidentiality.',
     sPersonal: 'Personal Information',
     sHealth: 'Health & Medical History',
@@ -44,14 +44,14 @@ const T = {
     dateLabel: 'Date',
     submit: 'Submit intake form',
     submitting: 'Sending…',
-    success: 'Thank you — your intake form has been received. See you at your session.',
+    success: 'Thank you — your intake form has been received. We will reach out to you shortly.',
     error: 'Something went wrong. Please try again or contact us directly.',
     allConsentsRequired: 'Please check all seven consent statements before submitting.',
     signatureRequired: 'Please provide your signature before submitting.',
   },
   de: {
     back: '← Zurück zur Website',
-    pageTitle: 'Anmeldebogen für Neukunden',
+    pageTitle: 'Anmeldeformular & Haftungsausschluss',
     pageSubtitle: 'Bitte füllen Sie dieses Formular vor Ihrer ersten Sitzung aus. Ihre Angaben werden vollständig vertraulich behandelt.',
     sPersonal: 'Persönliche Informationen',
     sHealth: 'Gesundheit & Krankengeschichte',
@@ -86,14 +86,14 @@ const T = {
     dateLabel: 'Datum',
     submit: 'Anmeldebogen absenden',
     submitting: 'Wird gesendet…',
-    success: 'Vielen Dank — Ihr Anmeldebogen ist eingegangen. Bis zu Ihrer Sitzung.',
+    success: 'Vielen Dank — Ihr Anmeldebogen ist eingegangen. Wir werden uns in Kürze bei Ihnen melden.',
     error: 'Es ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut oder kontaktieren Sie uns direkt.',
     allConsentsRequired: 'Bitte bestätigen Sie alle sieben Einwilligungspunkte vor dem Absenden.',
     signatureRequired: 'Bitte leisten Sie Ihre Unterschrift vor dem Absenden.',
   },
   it: {
     back: '← Torna al sito',
-    pageTitle: 'Modulo di anamnese per nuovi clienti',
+    pageTitle: 'Modulo di Accoglienza & Liberatoria',
     pageSubtitle: 'Compila questo modulo prima della tua prima seduta. Le tue informazioni saranno trattate con la massima riservatezza.',
     sPersonal: 'Informazioni personali',
     sHealth: 'Salute e anamnesi',
@@ -128,18 +128,18 @@ const T = {
     dateLabel: 'Data',
     submit: 'Invia il modulo',
     submitting: 'Invio in corso…',
-    success: 'Grazie — il tuo modulo è stato ricevuto. A presto per la tua seduta.',
+    success: 'Grazie — il tuo modulo è stato ricevuto. Ti contatteremo a breve.',
     error: 'Qualcosa è andato storto. Riprova o contattaci direttamente.',
     allConsentsRequired: 'Spunta tutti e sette i punti di consenso prima di inviare.',
     signatureRequired: 'Firma prima di inviare.',
   },
   pt: {
     back: '← Voltar ao site',
-    pageTitle: 'Formulário de anamnese para novos clientes',
-    pageSubtitle: 'Por favor preencha este formulário antes da sua primeira sessão. As suas informações são tratadas com total confidencialidade.',
+    pageTitle: 'Formulário de Cadastro & Termo de Responsabilidade',
+    pageSubtitle: 'Por favor, preencha este formulário antes da sua primeira sessão. Suas informações são tratadas com total sigilo.',
     sPersonal: 'Informações pessoais',
     sHealth: 'Saúde e histórico médico',
-    sConsent: 'Consentimento e declaração de isenção',
+    sConsent: 'Consentimento e Termo de Isenção',
     sSignature: 'Assinatura',
     sConfirm: 'Confirmação',
     fullName: 'Nome completo',
@@ -156,13 +156,13 @@ const T = {
     otherComplaints: 'Outras queixas de saúde ou condições relevantes',
     consentIntro: 'Leia e marque cada item antes de enviar:',
     consent: [
-      'Confirmo que todas as informações fornecidas neste formulário são precisas e completas segundo o meu melhor conhecimento.',
-      'Compreendo que a Massagem Tailandesa e a Técnica Alexander são práticas complementares e não substituem tratamentos médicos.',
-      'Declarei todas as condições de saúde, lesões e medicamentos relevantes que possam afetar a minha sessão.',
-      'Dou o meu consentimento informado para receber trabalho corporal com toque como parte da minha sessão.',
-      'Compreendo que posso pausar ou interromper a sessão a qualquer momento sem nenhuma obrigação.',
-      'Confirmo que não estou sob a influência de álcool ou substâncias recreativas no momento da sessão.',
-      'Isento o praticante de qualquer responsabilidade por reações adversas decorrentes de informações de saúde que não divulguei.',
+      'Confirmo que todas as informações fornecidas neste formulário são verdadeiras e completas conforme meu melhor conhecimento.',
+      'Entendo que a Massagem Tailandesa e a Técnica Alexander são práticas complementares e não substituem tratamento médico.',
+      'Informei todas as condições de saúde, lesões e medicamentos relevantes que possam afetar minha sessão.',
+      'Dou meu consentimento informado para receber trabalho corporal com toque como parte da minha sessão.',
+      'Entendo que posso pausar ou encerrar a sessão a qualquer momento, sem nenhuma obrigação.',
+      'Confirmo que não estou sob efeito de álcool ou substâncias recreativas no momento da sessão.',
+      'Isento o profissional de qualquer responsabilidade por reações adversas decorrentes de informações de saúde que não foram por mim divulgadas.',
     ],
     sigInstruction: 'Assine abaixo com o dedo ou o mouse.',
     clearSig: 'Limpar assinatura',
@@ -170,10 +170,10 @@ const T = {
     dateLabel: 'Data',
     submit: 'Enviar formulário',
     submitting: 'Enviando…',
-    success: 'Obrigado — o seu formulário foi recebido. Até à sua sessão.',
-    error: 'Algo deu errado. Tente novamente ou entre em contato diretamente.',
+    success: 'Obrigado — seu formulário foi recebido. Entraremos em contato em breve.',
+    error: 'Algo deu errado. Tente novamente ou fale conosco diretamente.',
     allConsentsRequired: 'Marque todos os sete itens de consentimento antes de enviar.',
-    signatureRequired: 'Por favor assine antes de enviar.',
+    signatureRequired: 'Por favor, assine antes de enviar.',
   },
 };
 
@@ -290,10 +290,10 @@ const CheckRow = ({ checked, onChange, label }) => (
 );
 
 const PAGE_TITLES = {
-  en: 'Intake Form — Tranquilário Studio',
-  de: 'Anmeldebogen — Tranquilário Studio',
-  it: 'Modulo di anamnese — Tranquilário Studio',
-  pt: 'Formulário de anamnese — Tranquilário Studio',
+  en: 'Client Intake & Liability Waiver — Tranquilário Studio',
+  de: 'Anmeldeformular & Haftungsausschluss — Tranquilário Studio',
+  it: 'Modulo di Accoglienza & Liberatoria — Tranquilário Studio',
+  pt: 'Formulário de Cadastro & Termo de Responsabilidade — Tranquilário Studio',
 };
 
 // ── Main component ────────────────────────────────────────────────────────────
@@ -305,6 +305,10 @@ export default function IntakeForm() {
     document.title = PAGE_TITLES[lang] || 'Intake Form — Tranquilário Studio';
     return () => { document.title = 'Tranquilário Studio'; };
   }, [lang]);
+
+  useEffect(() => {
+    setForm(f => ({ ...f, clientName: f.fullName }));
+  }, [form.fullName]);
 
   const [form, setForm] = useState({
     fullName: '', birthday: '', age: '', phone: '', email: '',
