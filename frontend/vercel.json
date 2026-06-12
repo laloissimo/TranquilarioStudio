@@ -3,6 +3,7 @@
   "outputDirectory": "build",
   "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }],
   "env": {
-    "PUBLIC_URL": ""
+    "PUBLIC_URL": "",
+    "REACT_APP_BACKEND_URL": "https://tranquilario-backend-production.up.railway.app"
   }
 }
