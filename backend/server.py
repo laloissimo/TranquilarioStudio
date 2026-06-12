@@ -1,4 +1,4 @@
-from fastapi import FastAPI, APIRouter
+from fastapi import FastAPI, APIRouter, BackgroundTasks
 from dotenv import load_dotenv
 from starlette.middleware.cors import CORSMiddleware
 import os
@@ -45,10 +45,17 @@ def _get_sheets_client():
     if not GOOGLE_CREDENTIALS_JSON:
         logger.warning("GOOGLE_CREDENTIALS not set — Sheets integration disabled")
         return None
+    logger.info(f"Sheets: GOOGLE_CREDENTIALS present (length={len(GOOGLE_CREDENTIALS_JSON)})")
     try:
         creds_dict = json.loads(GOOGLE_CREDENTIALS_JSON)
+        logger.info(f"Sheets: JSON parsed OK — type={creds_dict.get('type')}, client_email={creds_dict.get('client_email')}")
+    except Exception as e:
+        logger.error(f"Sheets: JSON parse failed: {e}")
+        return None
+    try:
+        logger.info("Sheets: calling gspread.service_account_from_dict …")
         _sheets_client = gspread.service_account_from_dict(creds_dict)
-        logger.info("Sheets: client initialised")
+        logger.info("Sheets: client initialised successfully")
         return _sheets_client
     except Exception as e:
         logger.error(f"Sheets: client init failed: {e}")
@@ -384,30 +391,37 @@ async def _send_feedback_email(fb: FeedbackCreate) -> None:
 
 # ----- Google Sheets appenders -----
 def _sync_append_intake(intake: 'IntakeCreate') -> None:
+    logger.info(f"Sheets: _sync_append_intake entered for {intake.full_name}")
     gc = _get_sheets_client()
     if not gc:
+        logger.warning("Sheets: no client — intake row NOT appended")
         return
-    ws = gc.open_by_key(INTAKE_SHEET_ID).sheet1
-    ts = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC")
-    row = [
-        ts,
-        intake.full_name,
-        intake.birthday or '',
-        intake.age or '',
-        intake.phone or '',
-        str(intake.email) if intake.email else '',
-        'Yes' if intake.heart_disease else 'No',
-        'Yes' if intake.high_blood_pressure else 'No',
-        'Yes' if intake.varicose_veins else 'No',
-        'Yes' if intake.pregnant else 'No',
-        intake.recent_injuries or '',
-        intake.other_complaints or '',
-        intake.client_name or intake.full_name,
-        intake.submission_date or '',
-        intake.language or 'en',
-    ]
-    ws.append_row(row, value_input_option='USER_ENTERED')
-    logger.info(f"Sheets: intake row appended for {intake.full_name}")
+    try:
+        logger.info(f"Sheets: opening intake sheet {INTAKE_SHEET_ID}")
+        ws = gc.open_by_key(INTAKE_SHEET_ID).sheet1
+        ts = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC")
+        row = [
+            ts,
+            intake.full_name,
+            intake.birthday or '',
+            intake.age or '',
+            intake.phone or '',
+            str(intake.email) if intake.email else '',
+            'Yes' if intake.heart_disease else 'No',
+            'Yes' if intake.high_blood_pressure else 'No',
+            'Yes' if intake.varicose_veins else 'No',
+            'Yes' if intake.pregnant else 'No',
+            intake.recent_injuries or '',
+            intake.other_complaints or '',
+            intake.client_name or intake.full_name,
+            intake.submission_date or '',
+            intake.language or 'en',
+        ]
+        logger.info(f"Sheets: calling append_row (sheet opened OK, row has {len(row)} cells)")
+        ws.append_row(row, value_input_option='USER_ENTERED')
+        logger.info(f"Sheets: intake row appended successfully for {intake.full_name}")
+    except Exception as e:
+        logger.error(f"Sheets: intake append_row failed: {e}", exc_info=True)
 
 
 async def _append_intake_to_sheets(intake: 'IntakeCreate') -> None:
@@ -418,26 +432,33 @@ async def _append_intake_to_sheets(intake: 'IntakeCreate') -> None:
 
 
 def _sync_append_feedback(fb: 'FeedbackCreate') -> None:
+    logger.info(f"Sheets: _sync_append_feedback entered for {fb.full_name}")
     gc = _get_sheets_client()
     if not gc:
+        logger.warning("Sheets: no client — feedback row NOT appended")
         return
-    ws = gc.open_by_key(FEEDBACK_SHEET_ID).sheet1
-    ts = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC")
-    feelings_str = ', '.join(fb.feelings) if fb.feelings else ''
-    row = [
-        ts,
-        fb.full_name,
-        fb.profession or '',
-        fb.age or '',
-        fb.rating or '',
-        feelings_str,
-        fb.comments,
-        fb.review_permission or '',
-        fb.mailing_list or '',
-        fb.language or 'en',
-    ]
-    ws.append_row(row, value_input_option='USER_ENTERED')
-    logger.info(f"Sheets: feedback row appended for {fb.full_name}")
+    try:
+        logger.info(f"Sheets: opening feedback sheet {FEEDBACK_SHEET_ID}")
+        ws = gc.open_by_key(FEEDBACK_SHEET_ID).sheet1
+        ts = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC")
+        feelings_str = ', '.join(fb.feelings) if fb.feelings else ''
+        row = [
+            ts,
+            fb.full_name,
+            fb.profession or '',
+            fb.age or '',
+            fb.rating or '',
+            feelings_str,
+            fb.comments,
+            fb.review_permission or '',
+            fb.mailing_list or '',
+            fb.language or 'en',
+        ]
+        logger.info(f"Sheets: calling append_row (sheet opened OK, row has {len(row)} cells)")
+        ws.append_row(row, value_input_option='USER_ENTERED')
+        logger.info(f"Sheets: feedback row appended successfully for {fb.full_name}")
+    except Exception as e:
+        logger.error(f"Sheets: feedback append_row failed: {e}", exc_info=True)
 
 
 async def _append_feedback_to_sheets(fb: 'FeedbackCreate') -> None:
@@ -478,18 +499,18 @@ async def create_contact(payload: ContactCreate):
 
 
 @api_router.post("/feedback")
-async def create_feedback(payload: FeedbackCreate):
+async def create_feedback(payload: FeedbackCreate, background_tasks: BackgroundTasks):
     logger.info(f"New feedback from {payload.full_name} ({payload.language})")
     await _send_feedback_email(payload)
-    asyncio.create_task(_append_feedback_to_sheets(payload))
+    background_tasks.add_task(_append_feedback_to_sheets, payload)
     return {"status": "received"}
 
 
 @api_router.post("/intake")
-async def create_intake(payload: IntakeCreate):
+async def create_intake(payload: IntakeCreate, background_tasks: BackgroundTasks):
     logger.info(f"New intake form from {payload.full_name} ({payload.language})")
     await _send_intake_email(payload)
-    asyncio.create_task(_append_intake_to_sheets(payload))
+    background_tasks.add_task(_append_intake_to_sheets, payload)
     return {"status": "received"}
 
 
@@ -505,7 +526,22 @@ app.include_router(api_router)
 
 
 @app.on_event("startup")
-async def log_registered_routes():
+async def startup():
+    # Log env var presence
+    if GOOGLE_CREDENTIALS_JSON:
+        logger.info(f"Startup: GOOGLE_CREDENTIALS is SET (length={len(GOOGLE_CREDENTIALS_JSON)})")
+    else:
+        logger.warning("Startup: GOOGLE_CREDENTIALS is NOT SET — Sheets writes will be skipped")
+
+    if RESEND_API_KEY:
+        logger.info(f"Startup: RESEND_API_KEY is SET (length={len(RESEND_API_KEY)})")
+    else:
+        logger.warning("Startup: RESEND_API_KEY is NOT SET")
+
+    # Eagerly warm the Sheets client so auth failures appear in startup logs
+    logger.info("Startup: pre-warming Google Sheets client …")
+    await asyncio.to_thread(_get_sheets_client)
+
     logger.info("=== Registered routes ===")
     for route in app.routes:
         methods = sorted(getattr(route, "methods", None) or [])
