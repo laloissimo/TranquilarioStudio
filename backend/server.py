@@ -32,7 +32,7 @@ if RESEND_API_KEY:
 else:
     logger.warning("RESEND_API_KEY not set — emails will be skipped")
 
-GOOGLE_SHEETS_CREDENTIALS_JSON = os.environ.get('GOOGLE_SHEETS_CREDENTIALS')
+GOOGLE_CREDENTIALS_JSON = os.environ.get('GOOGLE_CREDENTIALS')
 INTAKE_SHEET_ID   = '1qYHEqqRvWJfN0vcJwR-hazUI3zYigFzev40kDtty9OE'
 FEEDBACK_SHEET_ID = '15QBiiDaSvvefOLxGoxY2QzZYYhAVnWcGN-3md4LovGk'
 
@@ -42,11 +42,11 @@ def _get_sheets_client():
     global _sheets_client
     if _sheets_client is not None:
         return _sheets_client
-    if not GOOGLE_SHEETS_CREDENTIALS_JSON:
-        logger.warning("GOOGLE_SHEETS_CREDENTIALS not set — Sheets integration disabled")
+    if not GOOGLE_CREDENTIALS_JSON:
+        logger.warning("GOOGLE_CREDENTIALS not set — Sheets integration disabled")
         return None
     try:
-        creds_dict = json.loads(GOOGLE_SHEETS_CREDENTIALS_JSON)
+        creds_dict = json.loads(GOOGLE_CREDENTIALS_JSON)
         _sheets_client = gspread.service_account_from_dict(creds_dict)
         logger.info("Sheets: client initialised")
         return _sheets_client
