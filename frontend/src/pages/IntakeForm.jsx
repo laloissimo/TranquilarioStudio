@@ -306,10 +306,6 @@ export default function IntakeForm() {
     return () => { document.title = 'Tranquilário Studio'; };
   }, [lang]);
 
-  useEffect(() => {
-    setForm(f => ({ ...f, clientName: f.fullName }));
-  }, [form.fullName]);
-
   const [form, setForm] = useState({
     fullName: '', birthday: '', age: '', phone: '', email: '',
     heartDisease: false, highBloodPressure: false, varicoseVeins: false, pregnant: false,
@@ -356,7 +352,7 @@ export default function IntakeForm() {
         pregnant: form.pregnant,
         recent_injuries: str(form.recentInjuries),
         other_complaints: str(form.otherComplaints),
-        client_name: str(form.clientName),
+        client_name: str(form.fullName),
         submission_date: str(form.date),
         signature,
         language: lang,
