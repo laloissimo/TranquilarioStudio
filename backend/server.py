@@ -181,6 +181,11 @@ def _build_intake_email_html(intake: IntakeCreate) -> str:
         )
 
     received_at = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
+    safe_email = escape(str(intake.email)) if intake.email else ""
+    reply_cell = (
+        'Reply to client: <a href="mailto:' + safe_email + '" style="color:#4A5D4E;">' + safe_email + '</a>'
+        if intake.email else "No email provided."
+    )
 
     return f"""
     <div style="background:#F4F1ED;padding:32px 0;font-family:Manrope,Arial,sans-serif;">
@@ -227,7 +232,7 @@ def _build_intake_email_html(intake: IntakeCreate) -> str:
 
         <tr>
           <td style="padding:14px 32px 20px;font-size:11px;color:#5C605A;border-top:1px solid rgba(74,93,78,0.12);">
-            {"Reply to client: <a href=\"mailto:" + escape(str(intake.email)) + "\" style=\"color:#4A5D4E;\">" + escape(str(intake.email)) + "</a>" if intake.email else "No email provided."}
+            {reply_cell}
           </td>
         </tr>
 
