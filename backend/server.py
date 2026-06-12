@@ -406,3 +406,14 @@ app.add_middleware(
 )
 
 app.include_router(api_router)
+
+
+@app.on_event("startup")
+async def log_registered_routes():
+    logger.info("=== Registered routes ===")
+    for route in app.routes:
+        methods = sorted(getattr(route, "methods", None) or [])
+        path = getattr(route, "path", repr(route))
+        if methods:
+            logger.info(f"  {', '.join(methods):8s}  {path}")
+    logger.info("=========================")
