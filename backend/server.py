@@ -4,7 +4,9 @@ from starlette.middleware.cors import CORSMiddleware
 import os
 import asyncio
 import logging
+import json
 import resend
+import gspread
 from pathlib import Path
 from pydantic import BaseModel, Field, EmailStr, ConfigDict, field_validator
 from typing import Optional
@@ -29,6 +31,28 @@ if RESEND_API_KEY:
     resend.api_key = RESEND_API_KEY
 else:
     logger.warning("RESEND_API_KEY not set — emails will be skipped")
+
+GOOGLE_SHEETS_CREDENTIALS_JSON = os.environ.get('GOOGLE_SHEETS_CREDENTIALS')
+INTAKE_SHEET_ID   = '1qYHEqqRvWJfN0vcJwR-hazUI3zYigFzev40kDtty9OE'
+FEEDBACK_SHEET_ID = '15QBiiDaSvvefOLxGoxY2QzZYYhAVnWcGN-3md4LovGk'
+
+_sheets_client = None
+
+def _get_sheets_client():
+    global _sheets_client
+    if _sheets_client is not None:
+        return _sheets_client
+    if not GOOGLE_SHEETS_CREDENTIALS_JSON:
+        logger.warning("GOOGLE_SHEETS_CREDENTIALS not set — Sheets integration disabled")
+        return None
+    try:
+        creds_dict = json.loads(GOOGLE_SHEETS_CREDENTIALS_JSON)
+        _sheets_client = gspread.service_account_from_dict(creds_dict)
+        logger.info("Sheets: client initialised")
+        return _sheets_client
+    except Exception as e:
+        logger.error(f"Sheets: client init failed: {e}")
+        return None
 
 app = FastAPI(title="Tranquilário Studio API")
 api_router = APIRouter(prefix="/api")
@@ -358,6 +382,71 @@ async def _send_feedback_email(fb: FeedbackCreate) -> None:
         logger.error(f"Resend: failed to send feedback email: {e}")
 
 
+# ----- Google Sheets appenders -----
+def _sync_append_intake(intake: 'IntakeCreate') -> None:
+    gc = _get_sheets_client()
+    if not gc:
+        return
+    ws = gc.open_by_key(INTAKE_SHEET_ID).sheet1
+    ts = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC")
+    row = [
+        ts,
+        intake.full_name,
+        intake.birthday or '',
+        intake.age or '',
+        intake.phone or '',
+        str(intake.email) if intake.email else '',
+        'Yes' if intake.heart_disease else 'No',
+        'Yes' if intake.high_blood_pressure else 'No',
+        'Yes' if intake.varicose_veins else 'No',
+        'Yes' if intake.pregnant else 'No',
+        intake.recent_injuries or '',
+        intake.other_complaints or '',
+        intake.client_name or intake.full_name,
+        intake.submission_date or '',
+        intake.language or 'en',
+    ]
+    ws.append_row(row, value_input_option='USER_ENTERED')
+    logger.info(f"Sheets: intake row appended for {intake.full_name}")
+
+
+async def _append_intake_to_sheets(intake: 'IntakeCreate') -> None:
+    try:
+        await asyncio.to_thread(_sync_append_intake, intake)
+    except Exception as e:
+        logger.error(f"Sheets: intake append failed: {e}")
+
+
+def _sync_append_feedback(fb: 'FeedbackCreate') -> None:
+    gc = _get_sheets_client()
+    if not gc:
+        return
+    ws = gc.open_by_key(FEEDBACK_SHEET_ID).sheet1
+    ts = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC")
+    feelings_str = ', '.join(fb.feelings) if fb.feelings else ''
+    row = [
+        ts,
+        fb.full_name,
+        fb.profession or '',
+        fb.age or '',
+        fb.rating or '',
+        feelings_str,
+        fb.comments,
+        fb.review_permission or '',
+        fb.mailing_list or '',
+        fb.language or 'en',
+    ]
+    ws.append_row(row, value_input_option='USER_ENTERED')
+    logger.info(f"Sheets: feedback row appended for {fb.full_name}")
+
+
+async def _append_feedback_to_sheets(fb: 'FeedbackCreate') -> None:
+    try:
+        await asyncio.to_thread(_sync_append_feedback, fb)
+    except Exception as e:
+        logger.error(f"Sheets: feedback append failed: {e}")
+
+
 # ----- Routes -----
 @api_router.get("/")
 async def root():
@@ -392,6 +481,7 @@ async def create_contact(payload: ContactCreate):
 async def create_feedback(payload: FeedbackCreate):
     logger.info(f"New feedback from {payload.full_name} ({payload.language})")
     await _send_feedback_email(payload)
+    asyncio.create_task(_append_feedback_to_sheets(payload))
     return {"status": "received"}
 
 
@@ -399,6 +489,7 @@ async def create_feedback(payload: FeedbackCreate):
 async def create_intake(payload: IntakeCreate):
     logger.info(f"New intake form from {payload.full_name} ({payload.language})")
     await _send_intake_email(payload)
+    asyncio.create_task(_append_intake_to_sheets(payload))
     return {"status": "received"}
 
 

@@ -3,3 +3,5 @@ uvicorn[standard]==0.25.0
 python-dotenv==1.2.2
 pydantic[email]==2.13.3
 resend==2.30.0
+gspread==6.1.2
+google-auth==2.29.0
