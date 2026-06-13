@@ -401,24 +401,24 @@ def _sync_append_intake(intake: 'IntakeCreate') -> None:
         ws = gc.open_by_key(INTAKE_SHEET_ID).sheet1
         ts = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC")
         row = [
-            ts,                                           # 1  Submitted at
-            intake.full_name,                             # 2  Name
-            intake.birthday or '',                        # 3  Geburtsdatum
-            intake.age or '',                             # 4  Alter
-            intake.phone or '',                           # 5  Telefon WhatsApp
-            str(intake.email) if intake.email else '',    # 6  E-Mail
-            '',                                           # 7  Gesundheitsinformationen (general)
-            'Yes' if intake.heart_disease else 'No',      # 8  Herzkrankheit
-            'Yes' if intake.high_blood_pressure else 'No',# 9  Hoher Blutdruck
-            'Yes' if intake.varicose_veins else 'No',     # 10 Krampfadern
-            'Yes' if intake.pregnant else 'No',           # 11 Schwanger
-            intake.recent_injuries or '',                 # 12 Kürzliche Verletzungen
-            intake.other_complaints or '',                # 13 Andere Beschwerden
-            '',                                           # 14 Untitled short answer 1
-            '',                                           # 15 Untitled short answer 2
-            intake.client_name or intake.full_name,       # 16 Name des Klienten
-            intake.submission_date or '',                 # 17 Heutiges Datum
-            '',                                           # 18 Signature (sent by email)
+            ts,                                           # 1  timestamp
+            intake.full_name,                             # 2  full_name
+            intake.birthday or '',                        # 3  birthday
+            intake.age or '',                             # 4  age
+            intake.phone or '',                           # 5  phone
+            str(intake.email) if intake.email else '',    # 6  email
+            '',                                           # 7  blank
+            'Yes' if intake.heart_disease else 'No',      # 8  heart_disease
+            'Yes' if intake.high_blood_pressure else 'No',# 9  high_blood_pressure
+            'Yes' if intake.varicose_veins else 'No',     # 10 varicose_veins
+            'Yes' if intake.pregnant else 'No',           # 11 pregnant
+            intake.recent_injuries or '',                 # 12 recent_injuries
+            intake.other_complaints or '',                # 13 other_complaints
+            '',                                           # 14 blank
+            '',                                           # 15 blank
+            intake.client_name or '',                     # 16 client_name
+            intake.submission_date or '',                 # 17 submission_date
+            '',                                           # 18 blank (signature sent by email)
         ]
         logger.info(f"Sheets: calling append_row (sheet opened OK, row has {len(row)} cells)")
         ws.append_row(row, value_input_option='USER_ENTERED')
