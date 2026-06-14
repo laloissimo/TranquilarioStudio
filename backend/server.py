@@ -33,7 +33,7 @@ else:
     logger.warning("RESEND_API_KEY not set — emails will be skipped")
 
 GOOGLE_CREDENTIALS_JSON = os.environ.get('GOOGLE_CREDENTIALS')
-INTAKE_SHEET_ID   = '1qYHEqqRvWJfN0vcJwR-hazUI3zYigFzev40kDtty9OE'
+INTAKE_SHEET_ID   = '1JRu7zWzCjOjGv2Tt6MzM-BlghJDHxwJ9mzMctbwzPa8'
 FEEDBACK_SHEET_ID = '15QBiiDaSvvefOLxGoxY2QzZYYhAVnWcGN-3md4LovGk'
 
 _sheets_client = None
@@ -420,6 +420,21 @@ def _sync_append_intake(intake: 'IntakeCreate') -> None:
             intake.submission_date or '',                 # 17 submission_date
             '',                                           # 18 blank (signature sent by email)
         ]
+        if ws.row_count == 1 and ws.get_all_values() == []:
+            headers = [
+                "Submitted at", "Name", "Geburtsdatum (TT/MM/JJJJ):", "Alter:",
+                "Telefon (WhatsApp):", "E-Mail:", "Gesundheitsinformationen:",
+                "Gesundheitsinformationen: (Herzkrankheit)",
+                "Gesundheitsinformationen: (Hoher Blutdruck)",
+                "Gesundheitsinformationen: (Krampfadern)",
+                "Gesundheitsinformationen: (Schwanger)",
+                "Gesundheitsinformationen: (Kürzliche Verletzungen/Operationen:)",
+                "Gesundheitsinformationen: (Andere relevante gesundheitliche Beschwerden:)",
+                "Untitled short answer field", "Untitled short answer field",
+                "Name des Klienten/der Klientin:", "Heutiges Datum:", "Signature",
+            ]
+            ws.append_row(headers, value_input_option='USER_ENTERED')
+            logger.info("Sheets: header row written to empty intake sheet")
         logger.info(f"Sheets: calling append_row (sheet opened OK, row has {len(row)} cells)")
         ws.append_row(row, value_input_option='USER_ENTERED')
         logger.info(f"Sheets: intake row appended successfully for {intake.full_name}")
