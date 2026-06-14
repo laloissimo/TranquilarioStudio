@@ -5,6 +5,19 @@ import LogoMark from '../components/LogoMark';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || '';
 
+const detectLang = () => {
+  try {
+    const saved = localStorage.getItem('tranq_lang');
+    if (saved && ['en', 'de', 'it', 'pt'].includes(saved)) return saved;
+  } catch (_) {}
+  if (typeof navigator === 'undefined') return 'en';
+  const raw = (navigator.languages && navigator.languages[0]) || navigator.language || '';
+  if (raw.startsWith('de')) return 'de';
+  if (raw.startsWith('it')) return 'it';
+  if (raw.startsWith('pt')) return 'pt';
+  return 'en';
+};
+
 // ── Translations ──────────────────────────────────────────────────────────────
 const T = {
   en: {
@@ -298,8 +311,13 @@ const PAGE_TITLES = {
 
 // ── Main component ────────────────────────────────────────────────────────────
 export default function IntakeForm() {
-  const [lang, setLang] = useState('en');
+  const [lang, setLangState] = useState(detectLang);
   const t = T[lang];
+
+  const setLang = (l) => {
+    setLangState(l);
+    try { localStorage.setItem('tranq_lang', l); } catch (_) {}
+  };
 
   useEffect(() => {
     document.title = PAGE_TITLES[lang] || 'Intake Form — Tranquilário Studio';
