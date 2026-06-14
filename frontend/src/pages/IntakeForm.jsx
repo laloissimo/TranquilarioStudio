@@ -344,6 +344,14 @@ export default function IntakeForm() {
     setForm(f => ({ ...f, [key]: val }));
   };
 
+  const handleBirthday = (e) => {
+    const digits = e.target.value.replace(/\D/g, '').slice(0, 8);
+    let formatted = digits;
+    if (digits.length > 4) formatted = digits.slice(0, 2) + '/' + digits.slice(2, 4) + '/' + digits.slice(4);
+    else if (digits.length > 2) formatted = digits.slice(0, 2) + '/' + digits.slice(2);
+    setForm(f => ({ ...f, birthday: formatted }));
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setValidationMsg('');
@@ -449,7 +457,7 @@ export default function IntakeForm() {
                 </Field>
               </div>
               <Field label={t.birthday}>
-                <input className={inputCls} value={form.birthday} onChange={set('birthday')} placeholder="DD/MM/YYYY" />
+                <input className={inputCls} value={form.birthday} onChange={handleBirthday} placeholder="DD/MM/YYYY" maxLength={10} inputMode="numeric" />
               </Field>
               <Field label={t.age}>
                 <input className={inputCls} type="number" min="1" max="120" value={form.age} onChange={set('age')} placeholder="—" />
