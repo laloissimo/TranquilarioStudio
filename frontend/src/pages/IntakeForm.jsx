@@ -3,8 +3,6 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import LogoMark from '../components/LogoMark';
 
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || '';
-
 const detectLang = () => {
   try {
     const saved = localStorage.getItem('tranq_lang');
@@ -366,7 +364,7 @@ export default function IntakeForm() {
       // Send undefined (omitted) for empty optional strings so pydantic
       // receives null rather than "", which would fail EmailStr validation.
       const str = (v) => v || undefined;
-      await axios.post(`${BACKEND_URL}/api/intake`, {
+      await axios.post('/api/intake', {
         full_name: form.fullName,
         birthday: str(form.birthday),
         age: str(form.age),

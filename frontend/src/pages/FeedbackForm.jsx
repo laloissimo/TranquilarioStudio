@@ -3,8 +3,6 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import LogoMark from '../components/LogoMark';
 
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || '';
-
 const detectLang = () => {
   try {
     const saved = localStorage.getItem('tranq_lang');
@@ -255,7 +253,7 @@ export default function FeedbackForm() {
 
     const str = (v) => v || undefined;
     try {
-      await axios.post(`${BACKEND_URL}/api/feedback`, {
+      await axios.post('/api/feedback', {
         rating: str(form.rating),
         feelings: checkedFeelings,
         comments: form.comments,

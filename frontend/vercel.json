@@ -1,9 +1,8 @@
 {
   "buildCommand": "npm install --legacy-peer-deps && CI=false NODE_OPTIONS=--openssl-legacy-provider npm run build",
   "outputDirectory": "build",
-  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }],
+  "rewrites": [{ "source": "/((?!api/).*)", "destination": "/index.html" }],
   "env": {
-    "PUBLIC_URL": "",
-    "REACT_APP_BACKEND_URL": "https://tranquilario-backend-production.up.railway.app"
+    "PUBLIC_URL": ""
   }
 }
