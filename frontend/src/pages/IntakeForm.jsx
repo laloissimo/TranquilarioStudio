@@ -6,10 +6,11 @@ import LogoMark from '../components/LogoMark';
 const detectLang = () => {
   try {
     const saved = localStorage.getItem('tranq_lang');
-    if (saved && ['en', 'it', 'pt'].includes(saved)) return saved;
+    if (saved && ['en', 'de', 'it', 'pt'].includes(saved)) return saved;
   } catch (_) {}
   if (typeof navigator === 'undefined') return 'en';
   const raw = (navigator.languages && navigator.languages[0]) || navigator.language || '';
+  if (raw.startsWith('de')) return 'de';
   if (raw.startsWith('it')) return 'it';
   if (raw.startsWith('pt')) return 'pt';
   return 'en';
@@ -58,6 +59,48 @@ const T = {
     error: 'Something went wrong. Please try again or contact us directly.',
     allConsentsRequired: 'Please check all seven consent statements before submitting.',
     signatureRequired: 'Please provide your signature before submitting.',
+  },
+  de: {
+    back: '← Zurück zur Website',
+    pageTitle: 'Anmeldeformular & Haftungsausschluss',
+    pageSubtitle: 'Bitte füllen Sie dieses Formular vor Ihrer ersten Sitzung aus. Ihre Angaben werden vollständig vertraulich behandelt.',
+    sPersonal: 'Persönliche Informationen',
+    sHealth: 'Gesundheit & Krankengeschichte',
+    sConsent: 'Einwilligung & Haftungsausschluss',
+    sSignature: 'Unterschrift',
+    sConfirm: 'Bestätigung',
+    fullName: 'Vollständiger Name',
+    birthday: 'Geburtsdatum (TT/MM/JJJJ)',
+    age: 'Alter',
+    phone: 'Telefon / WhatsApp',
+    email: 'E-Mail',
+    healthIntro: 'Bitte kreuzen Sie alle zutreffenden Punkte an:',
+    heartDisease: 'Herzerkrankung',
+    highBloodPressure: 'Bluthochdruck',
+    varicoseVeins: 'Krampfadern',
+    pregnant: 'Schwanger',
+    recentInjuries: 'Kürzliche Verletzungen oder Operationen (bitte beschreiben)',
+    otherComplaints: 'Weitere Beschwerden oder relevante Erkrankungen',
+    consentIntro: 'Bitte lesen und bestätigen Sie jeden Punkt vor dem Absenden:',
+    consent: [
+      'Ich bestätige, dass alle in diesem Formular angegebenen Informationen nach bestem Wissen und Gewissen korrekt und vollständig sind.',
+      'Ich verstehe, dass Thai-Massage und Alexander-Technik ergänzende Praktiken sind und keine medizinische Behandlung ersetzen.',
+      'Ich habe alle relevanten Erkrankungen, Verletzungen und Medikamente angegeben, die meine Sitzung beeinflussen könnten.',
+      'Ich erteile meine informierte Einwilligung zur Durchführung berührungsbasierter Körperarbeit im Rahmen meiner Sitzung.',
+      'Ich verstehe, dass ich die Sitzung jederzeit ohne Verpflichtung unterbrechen oder beenden kann.',
+      'Ich bestätige, dass ich zum Zeitpunkt der Sitzung nicht unter dem Einfluss von Alkohol oder Freizeitsubstanzen stehe.',
+      'Ich entbinde den Therapeuten von jeglicher Haftung für unerwünschte Reaktionen, die auf nicht offengelegte Gesundheitsinformationen zurückzuführen sind.',
+    ],
+    sigInstruction: 'Bitte unterschreiben Sie unten mit Finger oder Maus.',
+    clearSig: 'Unterschrift löschen',
+    clientNameLabel: 'Vollständiger Name (Druckschrift)',
+    dateLabel: 'Datum',
+    submit: 'Anmeldebogen absenden',
+    submitting: 'Wird gesendet…',
+    success: 'Vielen Dank — Ihr Anmeldebogen ist eingegangen. Wir werden uns in Kürze bei Ihnen melden.',
+    error: 'Es ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut oder kontaktieren Sie uns direkt.',
+    allConsentsRequired: 'Bitte bestätigen Sie alle sieben Einwilligungspunkte vor dem Absenden.',
+    signatureRequired: 'Bitte leisten Sie Ihre Unterschrift vor dem Absenden.',
   },
   it: {
     back: '← Torna al sito',
@@ -259,6 +302,7 @@ const CheckRow = ({ checked, onChange, label }) => (
 
 const PAGE_TITLES = {
   en: 'Client Intake & Liability Waiver — Tranquilário Studio',
+  de: 'Anmeldeformular & Haftungsausschluss — Tranquilário Studio',
   it: 'Modulo di Accoglienza & Liberatoria — Tranquilário Studio',
   pt: 'Formulário de Cadastro & Termo de Responsabilidade — Tranquilário Studio',
 };
@@ -376,7 +420,7 @@ export default function IntakeForm() {
           </Link>
           {/* Language selector */}
           <div className="flex items-center gap-1">
-            {['en','it','pt'].map(l => (
+            {['en','de','it','pt'].map(l => (
               <button
                 key={l}
                 type="button"

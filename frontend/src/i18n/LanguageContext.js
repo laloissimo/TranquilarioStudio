@@ -1,9 +1,9 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { translations, LANGUAGES } from './translations';
 
-const SUPPORTED = ['en', 'it', 'pt'];
+const SUPPORTED = ['en', 'de', 'it', 'pt'];
 
-// Map browser language tag (e.g., "pt-BR", "it-IT", "en-US") to one of our supported codes.
+// Map browser language tag (e.g., "pt-BR", "de-DE", "it-IT", "en-US") to one of our supported codes.
 const detectBrowserLang = () => {
   if (typeof navigator === 'undefined') return 'en';
   const candidates = [navigator.language, ...(navigator.languages || [])].filter(Boolean);

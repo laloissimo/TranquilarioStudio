@@ -1,6 +1,7 @@
-// Tranquilário Studio translations — EN (default), IT, PT-BR
+// Tranquilário Studio translations — EN (default), DE, IT, PT-BR
 export const LANGUAGES = [
   { code: 'en', label: 'EN', name: 'English', flag: '🇬🇧' },
+  { code: 'de', label: 'DE', name: 'Deutsch', flag: '🇩🇪' },
   { code: 'it', label: 'IT', name: 'Italiano', flag: '🇮🇹' },
   { code: 'pt', label: 'PT', name: 'Português', flag: '🇧🇷' },
 ];
@@ -122,6 +123,125 @@ export const translations = {
       contactTitle: 'Contact',
       intakeForm: 'New client intake',
       feedbackForm: 'Share feedback',
+    },
+  },
+
+  de: {
+    nav: {
+      home: 'Start',
+      about: 'Über Lalo',
+      sessions: 'Sitzungen',
+      testimonials: 'Stimmen',
+      contact: 'Termin',
+      cta: 'Termin buchen',
+    },
+    hero: {
+      overline: 'Tranquilário Studio',
+      title: 'Stille,\nBewegung,\nErneuerung.',
+      subtitle:
+        'Thai-Massage · Alexander-Technik · Körperbewusstsein — ein achtsamer Raum, in dem Körper und Präsenz sich begegnen.',
+      primary: 'Termin buchen',
+      secondary: 'Die Arbeit entdecken',
+    },
+    about: {
+      overline: 'Über Lalo',
+      title: 'Eine Berührung, die zuhört.',
+      body1:
+        'Im Tranquilário Studio ist jede Sitzung eine Reise in Stille und Erneuerung. Lalos Berührung trägt mehr als Technik — sie spiegelt Präsenz, Empathie und tiefes Zuhören.',
+      body2:
+        'Seine Arbeit mit dem Körper begann in den frühen 2000er-Jahren, und 2006 schloss er sein Diplom als Lehrer der Alexander-Technik ab. Zwei Jahrzehnte später, im Jahr 2024, wandte er sich der Traditionellen Thai-Massage zu und absolvierte die Ausbildungen Level 1 und Level 2 bei ITM — heute verwebt er beide Modalitäten zu einer Praxis, in der achtsame Re-Edukation auf den Rhythmus und die Tiefe der Thai-Körperarbeit trifft.',
+      quote:
+        '„Nichts an seinem Zugang wirkt mechanisch. Alles, was er tut, ist erfüllt von Bewusstsein, Liebe, Empathie und Respekt — sowohl für seine Arbeit als auch für den Menschen, der sie empfängt."',
+      quoteAuthor: '— Jan M., 57, Tischlermeister',
+    },
+    sessions: {
+      overline: 'Sitzungen',
+      title: 'Zwei Praktiken, ein Dialog.',
+      intro:
+        'Jede Behandlung wird individuell angepasst. Sitzungen können rhythmische Dehnungen, sanfte Kompression, gehaltene Positionen und Atemanleitung beinhalten — stets verwoben mit Körperbewusstsein, Feingefühl und Sorgfalt.',
+      items: [
+        {
+          title: 'Traditionelle Thai-Massage',
+          body: 'Rhythmische Dehnungen, sanfte Kompression und gehaltene Positionen entlang der Energielinien des Körpers, die Raum, Atem und Vitalität wiederherstellen.',
+        },
+        {
+          title: 'Alexander-Technik',
+          body: 'Eine achtsame Re-Edukation von Haltung und Bewegung — löst gewohnte Spannungen und lädt Leichtigkeit in alltägliche Gesten ein.',
+        },
+      ],
+      note: 'Preise auf Anfrage — jede Sitzung ist individuell gestaltet.',
+    },
+    testimonials: {
+      overline: 'Stimmen',
+      title: 'Was Klient:innen teilen.',
+      items: [
+        {
+          quote:
+            '„Ich verließ die Sitzung tief entspannt und von so viel Spannung befreit. Wer eine Sitzung in Erwägung zieht, dem empfehle ich 90 Minuten — es lohnt sich absolut, und Ihr Körper wird es Ihnen danken."',
+          author: 'Jan M., 57, Tischlermeister',
+        },
+        {
+          quote:
+            '„Eine Thai-Massage mit Integration der Alexander-Technik bei Lalo ist ein einzigartiges Erlebnis. Er führt Ihren Körper achtsam an seine Grenzen heran, um eine tiefe Dehnung und Entspannung zu ermöglichen."',
+          author: 'Birgit K-M., 60, Seelenlauscherin',
+        },
+        {
+          quote:
+            '„Man hat das Gefühl, für einen Moment über dem Boden zu schweben. Die Wirkung der Massage hält lange an und hinterlässt ein Gefühl von Leichtigkeit, tiefer Entspannung und umfassendem Wohlbefinden."',
+          author: 'Birgit K-M., 60, Seelenlauscherin',
+        },
+        {
+          quote:
+            '„Die Massage von Lalo war weit mehr als nur eine körperliche Behandlung — sie war ein feinsinniger Dialog. Er fand Spannungen, bevor ich sie spürte, und löste sie mit einer Ruhe und Tiefe, die Vertrauen schuf."',
+          author: 'Malina E.',
+        },
+        {
+          quote:
+            '„Jeder Handgriff war durchdacht, aber nie mechanisch — eher wie ein Gespräch ohne Worte. Wer achtsame Berührung und echte Körperwahrnehmung sucht, ist bei Lalo genau richtig."',
+          author: 'Malina E.',
+        },
+        {
+          quote:
+            '„Er ist ein hochqualifizierter und sehr liebenswürdiger Profi. Meine ständigen Rückenschmerzen verschwinden, wenn er mich massiert, und ich bemerke auch Verbesserungen in meiner Beweglichkeit. Ich empfinde nur Dankbarkeit!"',
+          author: 'Moema F-T.',
+        },
+        {
+          quote:
+            '„Fantastisch! Für meine Arbeit als Zirkusakrobatin sind Lalos Massagen grundlegend für die Entspannung von Muskeln und Gelenken!"',
+          author: 'Philine D.',
+        },
+      ],
+    },
+    contact: {
+      overline: 'Termin · Kontakt',
+      title: 'Gönnen Sie sich diese Erfahrung.',
+      intro:
+        'Schreiben Sie ein paar Zeilen darüber, wonach Sie suchen. Lalo antwortet persönlich, um eine Sitzung zu vereinbaren.',
+      name: 'Ihr Name',
+      email: 'E-Mail',
+      phone: 'Telefon (optional)',
+      preferred: 'Bevorzugte Sitzung',
+      preferredOptions: ['Thai-Massage', 'Alexander-Technik'],
+      message: 'Ein paar Worte über Ihren Körper, Ihre Bedürfnisse, Ihre Absicht…',
+      referral: 'Wie haben Sie von Lalo erfahren?',
+      referralOptions: ['Ein Freund', 'Soziale Medien', 'Suchmaschine', 'Sonstiges'],
+      referralOther: 'Erzählen Sie uns ein bisschen mehr',
+      submit: 'Anfrage senden',
+      sending: 'Wird gesendet…',
+      success: 'Danke — Ihre Nachricht ist unterwegs. Lalo meldet sich.',
+      error: 'Etwas ist schiefgelaufen. Bitte erneut versuchen oder direkt schreiben.',
+      or: 'oder direkt Kontakt aufnehmen',
+    },
+    footer: {
+      tagline: 'Gönnen Sie sich diese besondere Erfahrung.',
+      taglineTranslation: 'Treat yourself to this special experience.',
+      discipline: 'Thai-Massage · Alexander-Technik · Körperbewusstsein',
+      locations: 'Toronto, Kanada',
+      rights: '© 2026 Lalo Porto',
+      navTitle: 'Navigation',
+      contactTitle: 'Kontakt',
+      intakeForm: 'Erstkunden-Formular',
+      feedbackForm: 'Feedback geben',
     },
   },
 

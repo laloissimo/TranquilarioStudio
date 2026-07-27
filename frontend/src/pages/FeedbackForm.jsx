@@ -6,10 +6,11 @@ import LogoMark from '../components/LogoMark';
 const detectLang = () => {
   try {
     const saved = localStorage.getItem('tranq_lang');
-    if (saved && ['en', 'it', 'pt'].includes(saved)) return saved;
+    if (saved && ['en', 'de', 'it', 'pt'].includes(saved)) return saved;
   } catch (_) {}
   if (typeof navigator === 'undefined') return 'en';
   const raw = (navigator.languages && navigator.languages[0]) || navigator.language || '';
+  if (raw.startsWith('de')) return 'de';
   if (raw.startsWith('it')) return 'it';
   if (raw.startsWith('pt')) return 'pt';
   return 'en';
@@ -48,6 +49,38 @@ const T = {
     submitting: 'Sending…',
     success: 'Thank you — your feedback has been received. It means a lot.',
     error: 'Something went wrong. Please try again or contact us directly.',
+  },
+  de: {
+    back: '← Zurück zur Website',
+    pageTitle: 'Sitzungs-Feedback',
+    pageSubtitle: 'Vielen Dank für Ihre Zeit. Ihr Feedback hilft mir, mich als Therapeut weiterzuentwickeln — jede Antwort wird gelesen und ist sehr wertvoll.',
+    sExperience: 'Gesamterlebnis',
+    sFeelings: 'Wie haben Sie sich nach der Sitzung gefühlt?',
+    sComments: 'Ihr Feedback',
+    sAboutYou: 'Über Sie',
+    sMailingList: 'In Kontakt bleiben',
+    ratingLabel: 'Wie würden Sie das Gesamterlebnis bewerten?',
+    ratings: ['Ausgezeichnet', 'Gut', 'Neutral', 'Nicht zufrieden'],
+    feelingsLabel: 'Alles Zutreffende auswählen:',
+    feelings: ['Entspannter', 'Weniger Schmerzen / Verspannungen', 'Mehr Körperbewusstsein', 'Energiegeladen', 'Keine wesentliche Veränderung', 'Sonstiges'],
+    feelingsOtherPlaceholder: 'Bitte beschreiben…',
+    commentsLabel: 'Kommentare oder Feedback',
+    commentsPlaceholder: 'Teilen Sie mit, was aufgefallen ist — was geholfen hat, was anders sein könnte, wie Sie sich gefühlt haben…',
+    reviewPermLabel: 'Darf ich Ihr Feedback als öffentliche Rezension verwenden?',
+    reviewYes: 'Ja, mit meinem Namen',
+    reviewAnon: 'Ja, anonym',
+    reviewNo: 'Nein, vertraulich',
+    fullName: 'Vollständiger Name',
+    profession: 'Beruf',
+    age: 'Alter',
+    mailingLabel: 'Möchten Sie gelegentlich Updates von Tranquilário Studio erhalten?',
+    mailingYes: 'Ja, gerne',
+    mailingNo: 'Nein, danke',
+    mailingAlready: 'Bereits angemeldet',
+    submit: 'Feedback absenden',
+    submitting: 'Wird gesendet…',
+    success: 'Vielen Dank — Ihr Feedback ist eingegangen. Es bedeutet mir viel.',
+    error: 'Es ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut oder kontaktieren Sie uns direkt.',
   },
   it: {
     back: '← Torna al sito',
@@ -117,6 +150,7 @@ const T = {
 
 const PAGE_TITLES = {
   en: 'Feedback — Tranquilário Studio',
+  de: 'Feedback — Tranquilário Studio',
   it: 'Feedback — Tranquilário Studio',
   pt: 'Feedback — Tranquilário Studio',
 };
@@ -268,7 +302,7 @@ export default function FeedbackForm() {
             <span className="font-serif text-xl tracking-tight">Tranquilário Studio</span>
           </Link>
           <div className="flex items-center gap-1">
-            {['en', 'it', 'pt'].map(l => (
+            {['en', 'de', 'it', 'pt'].map(l => (
               <button
                 key={l}
                 type="button"
