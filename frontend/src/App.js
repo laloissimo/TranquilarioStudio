@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './App.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { LanguageProvider } from './i18n/LanguageContext';
@@ -26,14 +26,45 @@ const Home = () => (
   </div>
 );
 
+// Blank page at / — invisible, noindex, no title
+const BlankPage = () => {
+  useEffect(() => {
+    document.title = '';
+    let meta = document.querySelector('meta[name="robots"]');
+    if (!meta) {
+      meta = document.createElement('meta');
+      meta.setAttribute('name', 'robots');
+      document.head.appendChild(meta);
+    }
+    meta.setAttribute('content', 'noindex, nofollow, noarchive');
+  }, []);
+  return null;
+};
+
+// Wrapper that injects noindex into /lalo and all child routes
+const NoIndex = ({ children }) => {
+  useEffect(() => {
+    let meta = document.querySelector('meta[name="robots"]');
+    if (!meta) {
+      meta = document.createElement('meta');
+      meta.setAttribute('name', 'robots');
+      document.head.appendChild(meta);
+    }
+    meta.setAttribute('content', 'noindex, nofollow, noarchive');
+    return () => { meta.setAttribute('content', ''); };
+  }, []);
+  return <>{children}</>;
+};
+
 function App() {
   return (
     <LanguageProvider>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/intake" element={<IntakeForm />} />
-          <Route path="/feedback" element={<FeedbackForm />} />
+          <Route path="/" element={<BlankPage />} />
+          <Route path="/lalo" element={<NoIndex><Home /></NoIndex>} />
+          <Route path="/lalo/intake" element={<NoIndex><IntakeForm /></NoIndex>} />
+          <Route path="/lalo/feedback" element={<NoIndex><FeedbackForm /></NoIndex>} />
         </Routes>
       </BrowserRouter>
     </LanguageProvider>

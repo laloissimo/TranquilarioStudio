@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useLang } from '../i18n/LanguageContext';
-import { Mail, Phone, MapPin, Send, Check, AlertCircle, MessageCircle } from 'lucide-react';
+import { Mail, MapPin, Send, Check, AlertCircle, MessageCircle } from 'lucide-react';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
@@ -67,16 +67,6 @@ export const Contact = () => {
                 <Mail size={16} />
               </span>
               <span className="text-base md:text-lg">tranquilario@pm.me</span>
-            </a>
-            <a
-              href="tel:+491628761060"
-              data-testid="contact-phone-link"
-              className="flex items-center gap-4 text-ink hover:text-earth transition-colors"
-            >
-              <span className="w-10 h-10 rounded-full bg-white border border-hairline flex items-center justify-center text-turquoise">
-                <Phone size={16} />
-              </span>
-              <span className="text-base md:text-lg">+49 162 876 1060</span>
             </a>
             <a
               href="https://wa.me/16475391744"

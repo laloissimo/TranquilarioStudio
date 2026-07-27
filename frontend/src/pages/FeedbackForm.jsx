@@ -251,7 +251,7 @@ export default function FeedbackForm() {
           </svg>
         </div>
         <h1 className="h-serif text-3xl md:text-4xl text-ink">{t.success}</h1>
-        <Link to="/" className="mt-8 text-[0.72rem] tracking-[0.22em] uppercase text-turquoise hover:text-earth transition-colors">
+        <Link to="/lalo" className="mt-8 text-[0.72rem] tracking-[0.22em] uppercase text-turquoise hover:text-earth transition-colors">
           {t.back}
         </Link>
       </div>
@@ -263,7 +263,7 @@ export default function FeedbackForm() {
       {/* Header */}
       <header className="bg-[#3A4A3E] text-[#F4F1ED] px-6 lg:px-10 py-5">
         <div className="max-w-2xl mx-auto flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-3">
+          <Link to="/lalo" className="flex items-center gap-3">
             <LogoMark size={36} variant="ripple" filled={false} stroke="#EFEAE2" accent="#7FA8A0" />
             <span className="font-serif text-xl tracking-tight">Tranquilário Studio</span>
           </Link>
@@ -422,7 +422,7 @@ export default function FeedbackForm() {
             >
               {status === 'submitting' ? t.submitting : t.submit}
             </button>
-            <Link to="/" className="text-[0.72rem] tracking-[0.2em] uppercase text-ink-soft/50 hover:text-ink-soft transition-colors">
+            <Link to="/lalo" className="text-[0.72rem] tracking-[0.2em] uppercase text-ink-soft/50 hover:text-ink-soft transition-colors">
               {t.back}
             </Link>
           </div>
