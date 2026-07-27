@@ -3,7 +3,6 @@ import LogoMark from './LogoMark';
 
 const messages = [
   { lang: 'en', text: "We're making some improvements. Back soon." },
-  { lang: 'de', text: 'Wir arbeiten an etwas Neuem. Bald zurück.' },
   { lang: 'it', text: 'Stiamo apportando alcuni miglioramenti. Torniamo presto.' },
   { lang: 'pt', text: 'Estamos a fazer melhorias. Voltamos em breve.' },
 ];

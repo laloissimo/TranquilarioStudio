@@ -107,7 +107,7 @@ export const Contact = () => {
                 <MapPin size={16} />
               </span>
               <span className="text-sm leading-relaxed">
-                Freiburg im Breisgau, Germany<br />Toronto, Canada
+                Toronto, Canada
               </span>
             </div>
           </div>

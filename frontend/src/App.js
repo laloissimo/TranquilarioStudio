@@ -1,10 +1,43 @@
 import React from 'react';
 import './App.css';
-import MaintenancePage from './components/MaintenancePage';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { LanguageProvider } from './i18n/LanguageContext';
+import Navbar from './components/Navbar';
+import Hero from './components/Hero';
+import About from './components/About';
+import Sessions from './components/Sessions';
+import Testimonials from './components/Testimonials';
+import Contact from './components/Contact';
+import Footer from './components/Footer';
+import IntakeForm from './pages/IntakeForm';
+import FeedbackForm from './pages/FeedbackForm';
 
-// MAINTENANCE MODE — restore full App.js from git to go back online
+const Home = () => (
+  <div className="App bg-sand text-ink">
+    <Navbar />
+    <main>
+      <Hero />
+      <About />
+      <Sessions />
+      <Testimonials />
+      <Contact />
+    </main>
+    <Footer />
+  </div>
+);
+
 function App() {
-  return <MaintenancePage />;
+  return (
+    <LanguageProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/intake" element={<IntakeForm />} />
+          <Route path="/feedback" element={<FeedbackForm />} />
+        </Routes>
+      </BrowserRouter>
+    </LanguageProvider>
+  );
 }
 
 export default App;
