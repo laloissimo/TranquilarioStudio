@@ -19,6 +19,7 @@ const T = {
   it: {
     festival:    'Cirk Fantastik · Firenze 2026',
     subtitle:    'Thai Massage & Alexander Technique',
+    bio:         'Pratico Thai Massage e Alexander Technique da oltre 20 anni, accompagnando il corpo verso ascolto e rinnovamento. Le sedute durano 90 minuti, con tariffe a scala mobile da €50 a €70 — scegli ciò che è sostenibile per te.',
     tapToBook:   'Tocca per prenotare',
     bookedLabel: '— prenotato',
     formName:    'Nome',
@@ -40,6 +41,7 @@ const T = {
   en: {
     festival:    'Cirk Fantastik · Florence 2026',
     subtitle:    'Thai Massage & Alexander Technique',
+    bio:         'I have been practicing Thai Massage and Alexander Technique for over 20 years, working with the body as a tool for listening and renewal. Sessions last 90 minutes, on a sliding scale from €50 to €70 — choose what feels sustainable for you.',
     tapToBook:   'Tap to book',
     bookedLabel: '— booked',
     formName:    'First name',
@@ -61,6 +63,7 @@ const T = {
   fr: {
     festival:    'Cirk Fantastik · Florence 2026',
     subtitle:    'Massage Thaï & Technique Alexander',
+    bio:         'Je pratique le Massage Thaï et la Technique Alexander depuis plus de 20 ans, accompagnant le corps vers l\'écoute et le renouveau. Les séances durent 90 minutes, sur une échelle mobile de €50 à €70 — choisissez ce qui est juste pour vous.',
     tapToBook:   'Appuyer pour réserver',
     bookedLabel: '— réservé',
     formName:    'Prénom',
@@ -393,8 +396,14 @@ export default function CirkBooking() {
       minHeight: '100vh', background: C.sand, fontFamily: "'Manrope',sans-serif",
       color: C.ink, overscrollBehavior: 'none',
     }}>
+      <style>{`
+        @media (min-width: 640px) {
+          .cirk-slot-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+          .cirk-slot-grid > div { margin-bottom: 0 !important; }
+        }
+      `}</style>
       {/* Max-width container */}
-      <div style={{ maxWidth: 520, margin: '0 auto', padding: '0 20px 60px' }}>
+      <div style={{ maxWidth: 760, margin: '0 auto', padding: '0 20px 60px' }}>
 
         {/* Language toggle */}
         <div style={{ display: 'flex', justifyContent: 'flex-end', paddingTop: 20, paddingBottom: 4 }}>
@@ -476,6 +485,17 @@ export default function CirkBooking() {
         </header>
 
         {/* ── Divider ── */}
+        <div style={{ height: 1, background: C.hairline, marginBottom: 28 }} />
+
+        {/* ── Bio ── */}
+        <p style={{
+          fontSize: 15, lineHeight: 1.75, color: C.inkSoft,
+          margin: '0 0 28px', maxWidth: 520,
+        }}>
+          {t.bio}
+        </p>
+
+        {/* ── Divider ── */}
         <div style={{ height: 1, background: C.hairline, marginBottom: 32 }} />
 
         {/* ── Slot grid ── */}
@@ -504,16 +524,18 @@ export default function CirkBooking() {
                   </div>
                 </div>
 
-                {daySlots.map(slot => (
-                  <SlotCard
-                    key={slot.slot_id}
-                    slot={slot}
-                    lang={lang}
-                    expanded={expanded}
-                    onExpand={setExpanded}
-                    onBooked={handleBooked}
-                  />
-                ))}
+                <div className="cirk-slot-grid">
+                  {daySlots.map(slot => (
+                    <SlotCard
+                      key={slot.slot_id}
+                      slot={slot}
+                      lang={lang}
+                      expanded={expanded}
+                      onExpand={setExpanded}
+                      onBooked={handleBooked}
+                    />
+                  ))}
+                </div>
               </section>
             );
           })
