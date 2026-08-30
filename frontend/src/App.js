@@ -12,6 +12,7 @@ import Footer from './components/Footer';
 import IntakeForm from './pages/IntakeForm';
 import FeedbackForm from './pages/FeedbackForm';
 import CirkBooking from './pages/CirkBooking';
+import CirkTerms from './pages/CirkTerms';
 
 const Home = () => (
   <div className="App bg-sand text-ink">
@@ -67,6 +68,7 @@ function App() {
           <Route path="/lalo/intake" element={<NoIndex><IntakeForm /></NoIndex>} />
           <Route path="/lalo/feedback" element={<NoIndex><FeedbackForm /></NoIndex>} />
           <Route path="/cirk" element={<CirkBooking />} />
+          <Route path="/cirkterms" element={<CirkTerms />} />
         </Routes>
       </BrowserRouter>
     </LanguageProvider>

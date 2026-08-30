@@ -23,8 +23,8 @@ const T = {
     bookedLabel: '— prenotato',
     formName:    'Nome',
     formWa:      'WhatsApp (es. +39 333 …)',
-    terms:       'Accetto i termini del',
-    termsLink:   'modulo intake',
+    terms:       'Accetto i',
+    termsLink:   'termini e condizioni',
     confirm:     'Conferma prenotazione',
     confirming:  'Conferma in corso…',
     thankTitle:  'Prenotato!',
@@ -45,7 +45,7 @@ const T = {
     formName:    'First name',
     formWa:      'WhatsApp (e.g. +1 647 …)',
     terms:       'I agree to the',
-    termsLink:   'intake form',
+    termsLink:   'terms & conditions',
     confirm:     'Confirm booking',
     confirming:  'Confirming…',
     thankTitle:  'Booked!',
@@ -65,8 +65,8 @@ const T = {
     bookedLabel: '— réservé',
     formName:    'Prénom',
     formWa:      'WhatsApp (ex. +33 6 …)',
-    terms:       "J'accepte le",
-    termsLink:   "formulaire d'accueil",
+    terms:       "J'accepte les",
+    termsLink:   "termes et conditions",
     confirm:     'Confirmer',
     confirming:  'Confirmation…',
     thankTitle:  'Réservé !',
@@ -294,7 +294,7 @@ function SlotCard({ slot, lang, expanded, onExpand, onBooked }) {
             />
             <span style={{ fontSize: 12, color: C.inkSoft, lineHeight: 1.5 }}>
               {t.terms}{' '}
-              <a href="/intake" target="_blank" rel="noreferrer" style={{ color: C.teal, textDecoration: 'underline' }}>
+              <a href="/cirkterms" target="_blank" rel="noreferrer" style={{ color: C.teal, textDecoration: 'underline' }}>
                 {t.termsLink}
               </a>
             </span>

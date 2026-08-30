@@ -19,39 +19,26 @@ const CIRK_SLOTS = [
   { slot_id: 'sun_17', date: '2026-09-06', time: '17:00' },
 ];
 
-async function getAuth() {
-  const credsJson = process.env.GOOGLE_SERVICE_ACCOUNT_JSON;
-  if (!credsJson) return null;
-  const creds = JSON.parse(credsJson);
-  return new google.auth.GoogleAuth({
-    credentials: creds,
-    scopes: [
-      'https://www.googleapis.com/auth/spreadsheets',
-      'https://www.googleapis.com/auth/drive.readonly',
-    ],
-  });
-}
-
-async function resolveSheetId(auth) {
-  if (process.env.CIRK_SHEET_ID) return process.env.CIRK_SHEET_ID;
-  const drive = google.drive({ version: 'v3', auth });
-  const res = await drive.files.list({
-    q: "name='CirkFantastik2026' and mimeType='application/vnd.google-apps.spreadsheet' and trashed=false",
-    fields: 'files(id)',
-    pageSize: 1,
-  });
-  const files = res.data.files || [];
-  if (!files.length) throw new Error('CirkFantastik2026 sheet not found');
-  return files[0].id;
+function getCredsJson() {
+  return process.env.GOOGLE_SERVICE_ACCOUNT_JSON || process.env.GOOGLE_CREDENTIALS || null;
 }
 
 async function getBookings() {
-  const auth = await getAuth();
-  if (!auth) return {};
+  const credsJson = getCredsJson();
+  const sheetId   = process.env.CIRK_SHEET_ID;
 
-  const sheetId = await resolveSheetId(auth);
+  if (!credsJson || !sheetId) {
+    console.warn('cirk/slots: missing credentials or CIRK_SHEET_ID — returning all available');
+    return {};
+  }
+
+  const creds = JSON.parse(credsJson);
+  const auth  = new google.auth.GoogleAuth({
+    credentials: creds,
+    scopes: ['https://www.googleapis.com/auth/spreadsheets'],
+  });
+
   const sheets = google.sheets({ version: 'v4', auth });
-
   const res = await sheets.spreadsheets.values.get({
     spreadsheetId: sheetId,
     range: 'Sheet1',
@@ -60,16 +47,15 @@ async function getBookings() {
   const rows = res.data.values || [];
   if (rows.length < 2) return {};
 
-  const headers = rows[0].map((h) => h.toLowerCase().trim());
-  const slotIdx = headers.indexOf('slot_id');
-  const nameIdx = headers.indexOf('first_name');
+  const headers  = rows[0].map((h) => h.toLowerCase().trim());
+  const slotIdx  = headers.indexOf('slot_id');
+  const nameIdx  = headers.indexOf('first_name');
   if (slotIdx === -1 || nameIdx === -1) return {};
 
   const booked = {};
   for (let i = 1; i < rows.length; i++) {
-    const row = rows[i];
-    const sid = (row[slotIdx] || '').trim();
-    const name = (row[nameIdx] || '').trim();
+    const sid  = (rows[i][slotIdx] || '').trim();
+    const name = (rows[i][nameIdx] || '').trim();
     if (sid && name) booked[sid] = name;
   }
   return booked;
@@ -89,7 +75,7 @@ module.exports = async function handler(req, res) {
 
   const result = CIRK_SLOTS.map((slot) => ({
     ...slot,
-    status: booked[slot.slot_id] ? 'booked' : 'available',
+    status:     booked[slot.slot_id] ? 'booked' : 'available',
     first_name: booked[slot.slot_id] || null,
   }));
 

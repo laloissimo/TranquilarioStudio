@@ -23,30 +23,13 @@ const VALID_SLOT_IDS = new Set(CIRK_SLOTS.map((s) => s.slot_id));
 const SLOTS_BY_ID = Object.fromEntries(CIRK_SLOTS.map((s) => [s.slot_id, s]));
 const CIRK_HEADERS = ['slot_id', 'date', 'time', 'first_name', 'whatsapp', 'booked_at'];
 
-async function getAuth() {
-  const credsJson = process.env.GOOGLE_SERVICE_ACCOUNT_JSON;
-  if (!credsJson) return null;
-  const creds = JSON.parse(credsJson);
-  return new google.auth.GoogleAuth({
-    credentials: creds,
-    scopes: [
-      'https://www.googleapis.com/auth/spreadsheets',
-      'https://www.googleapis.com/auth/drive.readonly',
-    ],
-  });
+function getCredsJson() {
+  // Support both naming conventions used across the project
+  return process.env.GOOGLE_SERVICE_ACCOUNT_JSON || process.env.GOOGLE_CREDENTIALS || null;
 }
 
-async function resolveSheetId(auth) {
-  if (process.env.CIRK_SHEET_ID) return process.env.CIRK_SHEET_ID;
-  const drive = google.drive({ version: 'v3', auth });
-  const res = await drive.files.list({
-    q: "name='CirkFantastik2026' and mimeType='application/vnd.google-apps.spreadsheet' and trashed=false",
-    fields: 'files(id)',
-    pageSize: 1,
-  });
-  const files = res.data.files || [];
-  if (!files.length) throw new Error('CirkFantastik2026 sheet not found');
-  return files[0].id;
+function getSheetId() {
+  return process.env.CIRK_SHEET_ID || null;
 }
 
 module.exports = async function handler(req, res) {
@@ -54,6 +37,14 @@ module.exports = async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
   if (req.method === 'OPTIONS') return res.status(200).end();
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
+
+  // ── Diagnostics (visible in Vercel function logs) ─────────────────────────
+  const credsJson = getCredsJson();
+  const sheetId   = getSheetId();
+  console.log('cirk/book: GOOGLE_SERVICE_ACCOUNT_JSON set:', !!process.env.GOOGLE_SERVICE_ACCOUNT_JSON);
+  console.log('cirk/book: GOOGLE_CREDENTIALS set:', !!process.env.GOOGLE_CREDENTIALS);
+  console.log('cirk/book: CIRK_SHEET_ID set:', !!sheetId, sheetId ? `(${sheetId.slice(0,8)}…)` : '');
+  console.log('cirk/book: body:', JSON.stringify(req.body));
 
   const { slot_id, first_name, whatsapp } = req.body || {};
 
@@ -64,53 +55,69 @@ module.exports = async function handler(req, res) {
     return res.status(400).json({ detail: 'Invalid slot_id' });
   }
 
-  const auth = await getAuth();
-  if (!auth) {
-    return res.status(503).json({ detail: 'Booking service unavailable' });
+  if (!credsJson) {
+    console.error('cirk/book: GOOGLE_SERVICE_ACCOUNT_JSON / GOOGLE_CREDENTIALS not set');
+    return res.status(503).json({ detail: 'Booking service unavailable: missing credentials' });
   }
 
-  let sheetId;
-  try {
-    sheetId = await resolveSheetId(auth);
-  } catch (err) {
-    console.error('cirk/book: resolveSheetId failed:', err.message);
-    return res.status(503).json({ detail: 'Sheet not found — contact us directly' });
+  if (!sheetId) {
+    console.error('cirk/book: CIRK_SHEET_ID env var not set');
+    return res.status(503).json({ detail: 'Booking service unavailable: CIRK_SHEET_ID not configured' });
   }
+
+  // ── Auth ──────────────────────────────────────────────────────────────────
+  let creds;
+  try {
+    creds = JSON.parse(credsJson);
+    console.log('cirk/book: creds parsed OK, client_email:', creds.client_email);
+  } catch (e) {
+    console.error('cirk/book: failed to parse credentials JSON:', e.message);
+    return res.status(503).json({ detail: 'Booking service unavailable: bad credentials JSON' });
+  }
+
+  const auth = new google.auth.GoogleAuth({
+    credentials: creds,
+    scopes: ['https://www.googleapis.com/auth/spreadsheets'],
+  });
 
   const sheets = google.sheets({ version: 'v4', auth });
 
+  // ── Read sheet, check conflict, append ────────────────────────────────────
   try {
-    // Read existing rows to check for conflicts and initialise headers
     const readRes = await sheets.spreadsheets.values.get({
       spreadsheetId: sheetId,
       range: 'Sheet1',
     });
 
     const rows = readRes.data.values || [];
+    console.log('cirk/book: sheet rows count:', rows.length);
 
-    // Write headers if sheet is empty
     if (rows.length === 0) {
+      // Initialise headers on first use
       await sheets.spreadsheets.values.append({
         spreadsheetId: sheetId,
         range: 'Sheet1',
         valueInputOption: 'USER_ENTERED',
         requestBody: { values: [CIRK_HEADERS] },
       });
+      console.log('cirk/book: headers written');
     } else {
       // Check for duplicate booking
       const headers = rows[0].map((h) => h.toLowerCase().trim());
       const slotIdx = headers.indexOf('slot_id');
+      console.log('cirk/book: header row:', rows[0], '| slot_id col index:', slotIdx);
       if (slotIdx !== -1) {
         for (let i = 1; i < rows.length; i++) {
           if ((rows[i][slotIdx] || '').trim() === slot_id) {
+            console.log('cirk/book: slot already taken:', slot_id);
             return res.status(409).json({ detail: 'Slot already booked' });
           }
         }
       }
     }
 
-    // Append booking row
-    const ts = new Date().toISOString().replace('T', ' ').slice(0, 19) + ' UTC';
+    // Append booking
+    const ts   = new Date().toISOString().replace('T', ' ').slice(0, 19) + ' UTC';
     const slot = SLOTS_BY_ID[slot_id];
     await sheets.spreadsheets.values.append({
       spreadsheetId: sheetId,
@@ -121,11 +128,15 @@ module.exports = async function handler(req, res) {
       },
     });
 
-    console.log(`cirk/book: booked ${slot_id} for ${first_name}`);
+    console.log('cirk/book: booked', slot_id, 'for', first_name);
     return res.status(200).json({ status: 'booked', slot_id, first_name: first_name.trim() });
+
   } catch (err) {
-    if (err.status === 409) throw err;
-    console.error('cirk/book: sheets error:', err.message);
-    return res.status(500).json({ detail: 'Booking failed' });
+    console.error('cirk/book: sheets API error:', err.message);
+    console.error('cirk/book: error code:', err.code, 'status:', err.status);
+    if (err.response) {
+      console.error('cirk/book: API response:', JSON.stringify(err.response.data));
+    }
+    return res.status(500).json({ detail: 'Booking failed: ' + err.message });
   }
 };
