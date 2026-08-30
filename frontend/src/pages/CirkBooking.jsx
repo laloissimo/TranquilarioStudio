@@ -2,8 +2,6 @@ import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import LogoMark from '../components/LogoMark';
 
-const BACKEND = 'https://tranquilario-backend-production.up.railway.app';
-
 // ── Brand tokens ──────────────────────────────────────────────────────────────
 const C = {
   sand:    '#F4F1ED',
@@ -161,7 +159,7 @@ function SlotCard({ slot, lang, expanded, onExpand, onBooked }) {
     setSub(true);
     setError(null);
     try {
-      await axios.post(`${BACKEND}/api/cirk/book`, {
+      await axios.post(`/api/cirk/book`, {
         slot_id:    slot_id,
         first_name: form.firstName.trim(),
         whatsapp:   form.whatsapp.trim(),
@@ -356,7 +354,7 @@ export default function CirkBooking() {
   const fetchSlots = useCallback(async () => {
     setLoading(true);
     try {
-      const res = await axios.get(`${BACKEND}/api/cirk/slots`);
+      const res = await axios.get(`/api/cirk/slots`);
       setSlots(res.data);
     } catch {
       setSlots([]);
