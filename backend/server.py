@@ -1,4 +1,4 @@
-from fastapi import FastAPI, APIRouter, BackgroundTasks
+from fastapi import FastAPI, APIRouter, BackgroundTasks, HTTPException
 from dotenv import load_dotenv
 from starlette.middleware.cors import CORSMiddleware
 import os
@@ -35,6 +35,29 @@ else:
 GOOGLE_CREDENTIALS_JSON = os.environ.get('GOOGLE_CREDENTIALS')
 INTAKE_SHEET_ID   = '1JRu7zWzCjOjGv2Tt6MzM-BlghJDHxwJ9mzMctbwzPa8'
 FEEDBACK_SHEET_ID = '15QBiiDaSvvefOLxGoxY2QzZYYhAVnWcGN-3md4LovGk'
+CIRK_SHEET_NAME   = 'CirkFantastik2026'
+
+CIRK_SLOTS = [
+    {"slot_id": "thu_10", "date": "2026-09-03", "time": "10:00"},
+    {"slot_id": "thu_12", "date": "2026-09-03", "time": "12:00"},
+    {"slot_id": "thu_15", "date": "2026-09-03", "time": "15:00"},
+    {"slot_id": "thu_17", "date": "2026-09-03", "time": "17:00"},
+    {"slot_id": "fri_10", "date": "2026-09-04", "time": "10:00"},
+    {"slot_id": "fri_12", "date": "2026-09-04", "time": "12:00"},
+    {"slot_id": "fri_15", "date": "2026-09-04", "time": "15:00"},
+    {"slot_id": "fri_17", "date": "2026-09-04", "time": "17:00"},
+    {"slot_id": "sat_10", "date": "2026-09-05", "time": "10:00"},
+    {"slot_id": "sat_12", "date": "2026-09-05", "time": "12:00"},
+    {"slot_id": "sat_15", "date": "2026-09-05", "time": "15:00"},
+    {"slot_id": "sat_17", "date": "2026-09-05", "time": "17:00"},
+    {"slot_id": "sun_10", "date": "2026-09-06", "time": "10:00"},
+    {"slot_id": "sun_12", "date": "2026-09-06", "time": "12:00"},
+    {"slot_id": "sun_15", "date": "2026-09-06", "time": "15:00"},
+    {"slot_id": "sun_17", "date": "2026-09-06", "time": "17:00"},
+]
+CIRK_SLOT_IDS   = {s['slot_id'] for s in CIRK_SLOTS}
+CIRK_SLOTS_BY_ID = {s['slot_id']: s for s in CIRK_SLOTS}
+CIRK_HEADERS     = ['slot_id', 'date', 'time', 'first_name', 'whatsapp', 'booked_at']
 
 _sheets_client = None
 
@@ -530,6 +553,79 @@ async def create_intake(payload: IntakeCreate, background_tasks: BackgroundTasks
     await _send_intake_email(payload)
     background_tasks.add_task(_append_intake_to_sheets, payload)
     return {"status": "received"}
+
+
+class CirkBookingCreate(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    slot_id: str = Field(min_length=1, max_length=20)
+    first_name: str = Field(min_length=1, max_length=60)
+    whatsapp: str = Field(min_length=5, max_length=40)
+
+
+def _sync_get_cirk_bookings() -> dict:
+    gc = _get_sheets_client()
+    if not gc:
+        return {}
+    try:
+        ws = gc.open(CIRK_SHEET_NAME).sheet1
+        rows = ws.get_all_records()
+        return {r['slot_id']: r['first_name'] for r in rows if r.get('slot_id') and r.get('first_name')}
+    except Exception as e:
+        logger.warning(f"Cirk: could not read sheet: {e}")
+        return {}
+
+
+def _sync_book_cirk_slot(slot_id: str, first_name: str, whatsapp: str) -> str:
+    gc = _get_sheets_client()
+    if not gc:
+        return 'error'
+    try:
+        ws = gc.open(CIRK_SHEET_NAME).sheet1
+        all_vals = ws.get_all_values()
+        if not all_vals:
+            ws.append_row(CIRK_HEADERS, value_input_option='USER_ENTERED')
+        rows = ws.get_all_records()
+        for row in rows:
+            if row.get('slot_id') == slot_id:
+                return 'taken'
+        ts = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC")
+        slot_meta = CIRK_SLOTS_BY_ID[slot_id]
+        ws.append_row(
+            [slot_id, slot_meta['date'], slot_meta['time'], first_name, whatsapp, ts],
+            value_input_option='USER_ENTERED',
+        )
+        logger.info(f"Cirk: booked {slot_id} for {first_name}")
+        return 'booked'
+    except Exception as e:
+        logger.error(f"Cirk: book failed: {e}", exc_info=True)
+        return 'error'
+
+
+@api_router.get("/cirk/slots")
+async def get_cirk_slots():
+    booked = await asyncio.to_thread(_sync_get_cirk_bookings)
+    result = []
+    for slot in CIRK_SLOTS:
+        sid = slot['slot_id']
+        if sid in booked:
+            result.append({**slot, 'status': 'booked', 'first_name': booked[sid]})
+        else:
+            result.append({**slot, 'status': 'available', 'first_name': None})
+    return result
+
+
+@api_router.post("/cirk/book")
+async def book_cirk_slot(payload: CirkBookingCreate):
+    if payload.slot_id not in CIRK_SLOT_IDS:
+        raise HTTPException(status_code=400, detail="Invalid slot_id")
+    result = await asyncio.to_thread(
+        _sync_book_cirk_slot, payload.slot_id, payload.first_name, payload.whatsapp
+    )
+    if result == 'taken':
+        raise HTTPException(status_code=409, detail="Slot already booked")
+    if result == 'error':
+        raise HTTPException(status_code=503, detail="Booking service unavailable")
+    return {"status": "booked", "slot_id": payload.slot_id, "first_name": payload.first_name}
 
 
 app.add_middleware(
