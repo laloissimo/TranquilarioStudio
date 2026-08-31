@@ -65,7 +65,9 @@ function App() {
         <Routes>
           <Route path="/" element={<BlankPage />} />
           <Route path="/lalo" element={<NoIndex><Home /></NoIndex>} />
+          <Route path="/intake" element={<IntakeForm />} />
           <Route path="/lalo/intake" element={<NoIndex><IntakeForm /></NoIndex>} />
+          <Route path="/feedback" element={<FeedbackForm />} />
           <Route path="/lalo/feedback" element={<NoIndex><FeedbackForm /></NoIndex>} />
           <Route path="/cirk" element={<CirkBooking />} />
           <Route path="/cirkterms" element={<CirkTerms />} />
