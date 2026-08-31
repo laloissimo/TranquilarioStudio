@@ -3,6 +3,6 @@
   "outputDirectory": "build",
   "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }],
   "env": {
-    "PUBLIC_URL": ""
+    "PUBLIC_URL": "/"
   }
 }
