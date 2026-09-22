@@ -14,6 +14,7 @@ import FeedbackForm from './pages/FeedbackForm';
 import CirkBooking from './pages/CirkBooking';
 import CirkTerms from './pages/CirkTerms';
 import Impressum from './pages/Impressum';
+import Datenschutz from './pages/Datenschutz';
 
 const Home = () => (
   <div className="App bg-sand text-ink">
@@ -67,12 +68,11 @@ function App() {
           <Route path="/" element={<BlankPage />} />
           <Route path="/lalo" element={<NoIndex><Home /></NoIndex>} />
           <Route path="/intake" element={<IntakeForm />} />
-          <Route path="/lalo/intake" element={<NoIndex><IntakeForm /></NoIndex>} />
           <Route path="/feedback" element={<FeedbackForm />} />
-          <Route path="/lalo/feedback" element={<NoIndex><FeedbackForm /></NoIndex>} />
           <Route path="/cirk" element={<CirkBooking />} />
           <Route path="/cirkterms" element={<CirkTerms />} />
           <Route path="/impressum" element={<Impressum />} />
+          <Route path="/datenschutz" element={<Datenschutz />} />
         </Routes>
       </BrowserRouter>
     </LanguageProvider>

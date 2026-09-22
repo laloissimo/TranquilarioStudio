@@ -73,14 +73,14 @@ export const Footer = () => {
           <span data-testid="footer-rights">{t.footer.rights}</span>
           <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
             <a
-              href="/lalo/intake"
+              href="/intake"
               data-testid="footer-intake-link"
               className="tracking-[0.2em] uppercase text-[#EFEAE2]/55 hover:text-white transition-colors"
             >
               {t.footer.intakeForm}
             </a>
             <a
-              href="/lalo/feedback"
+              href="/feedback"
               data-testid="footer-feedback-link"
               className="tracking-[0.2em] uppercase text-[#EFEAE2]/55 hover:text-white transition-colors"
             >
@@ -89,12 +89,18 @@ export const Footer = () => {
             <span className="tracking-[0.2em] uppercase">Tranquilário Studio</span>
           </div>
         </div>
-        <div className="mt-4 text-center">
+        <div className="mt-4 flex items-center justify-center gap-6">
           <a
             href="/impressum"
             className="text-xs text-[#EFEAE2]/35 hover:text-[#EFEAE2]/60 transition-colors"
           >
             Impressum
+          </a>
+          <a
+            href="/datenschutz"
+            className="text-xs text-[#EFEAE2]/35 hover:text-[#EFEAE2]/60 transition-colors"
+          >
+            Datenschutz
           </a>
         </div>
       </div>
