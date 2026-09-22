@@ -15,6 +15,7 @@ import CirkBooking from './pages/CirkBooking';
 import CirkTerms from './pages/CirkTerms';
 import Impressum from './pages/Impressum';
 import Datenschutz from './pages/Datenschutz';
+import InfinityCycle from './pages/InfinityCycle';
 
 const Home = () => (
   <div className="App bg-sand text-ink">
@@ -73,6 +74,7 @@ function App() {
           <Route path="/cirkterms" element={<CirkTerms />} />
           <Route path="/impressum" element={<Impressum />} />
           <Route path="/datenschutz" element={<Datenschutz />} />
+          <Route path="/infinitycycle" element={<InfinityCycle />} />
         </Routes>
       </BrowserRouter>
     </LanguageProvider>
