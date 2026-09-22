@@ -89,6 +89,14 @@ export const Footer = () => {
             <span className="tracking-[0.2em] uppercase">Tranquilário Studio</span>
           </div>
         </div>
+        <div className="mt-4 text-center">
+          <a
+            href="/impressum"
+            className="text-xs text-[#EFEAE2]/35 hover:text-[#EFEAE2]/60 transition-colors"
+          >
+            Impressum
+          </a>
+        </div>
       </div>
     </footer>
   );
