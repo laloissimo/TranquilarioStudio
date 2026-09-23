@@ -31,21 +31,6 @@ const Home = () => (
   </div>
 );
 
-// Blank page at / — invisible, noindex, no title
-const BlankPage = () => {
-  useEffect(() => {
-    document.title = '';
-    let meta = document.querySelector('meta[name="robots"]');
-    if (!meta) {
-      meta = document.createElement('meta');
-      meta.setAttribute('name', 'robots');
-      document.head.appendChild(meta);
-    }
-    meta.setAttribute('content', 'noindex, nofollow, noarchive');
-  }, []);
-  return null;
-};
-
 // Wrapper that injects noindex into /lalo and all child routes
 const NoIndex = ({ children }) => {
   useEffect(() => {
@@ -66,7 +51,7 @@ function App() {
     <LanguageProvider>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<BlankPage />} />
+          <Route path="/" element={<Home />} />
           <Route path="/lalo" element={<NoIndex><Home /></NoIndex>} />
           <Route path="/intake" element={<IntakeForm />} />
           <Route path="/feedback" element={<FeedbackForm />} />
